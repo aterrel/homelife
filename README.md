@@ -30,6 +30,7 @@
 - Node.js
 - PostgreSQL
 - Git
+- Conda
 
 ### Backend Setup
 1. Clone the repository:
@@ -37,22 +38,24 @@
    git clone https://github.com/your-username/homelife.git
    cd homelife/backend
    ```
-
-2. Create and activate a virtual environment:
+2. Create the conda environment:
    ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   conda env create
+   conda activate homelife
    ```
 3. Install dependencies:
    ```bash
    pip install -r requirements.txt
    ```
+4. Create your database:
+   ```bash
+   ./bin/create-db.sh
+   ```
 4. Set up the database:
    ```bash
-   python manage.py makemigrations
    python manage.py migrate
    ```
-1. Run the development server:
+5. Run the development server:
    ```bash
    python manage.py runserver
    ```
@@ -63,11 +66,11 @@
    ```bash
    cd ../frontend
    ```
-1. Install dependencies:
+2. Install dependencies:
    ```bash
    npm install
    ```
-1. Start the development server:
+3. Start the development server:
    ```bash
    npm start
    ```
@@ -82,19 +85,19 @@
 Contributions are welcome! Follow these steps:
 
 1. Fork the repository.
-1. Create a feature branch:
+2. Create a feature branch:
    ```bash
    git checkout -b feature/your-feature-name
    ```
-1. Commit your changes:
+3. Commit your changes:
    ```bash
    git commit -m "Add your feature description"
    ```
-1. Push to your forked repository:
+4. Push to your forked repository:
    ```bash
    git push origin feature/your-feature-name
    ```
-1. Open a pull request.
+5. Open a pull request.
 
 ## License
 This project is licensed under the MIT License.
