@@ -1,5 +1,30 @@
 # Development Guide
 
+## Folder structure
+
+```
+homelife/
+├── backend/         # Django backend
+│   ├── manage.py
+│   ├── backend/     # Django project folder
+│   │   ├── settings.py
+│   │   ├── urls.py
+│   │   ├── wsgi.py
+│   └── api/         # Django app for API
+│       ├── models.py
+│       ├── views.py
+│       ├── serializers.py
+│       ├── urls.py
+├── frontend/        # React frontend
+│   ├── src/
+│   │   ├── components/
+│   │   ├── App.js
+│   │   ├── index.js
+├── requirements.txt # Python dependencies
+├── package.json     # Frontend dependencies
+├── .env             # Environment variables
+```
+
 ## Development environment
 
 Mac is a pretty typical environment for developing and this project is largely developed using a mac.
