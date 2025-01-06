@@ -1,13 +1,19 @@
 import React from 'react';
 import EventList from './components/EventList';
+import MyCalendar from './components/Calendar';
 
 function App() {
   return (
     <div>
-      <h1>Events</h1>
-      <EventList />
+      <header>
+        <h1>Homelife</h1>
+      </header>
+      <main>
+        <MyCalendar />
+        <EventList />
+      </main>
     </div>
-  )
+  );
 }
 
 export default App;
