@@ -6,7 +6,7 @@ class Event(models.Model):
     description = models.TextField(blank=True, null=True)
     date = models.DateField()
     time = models.TimeField()
-    assigned_to = models.CharField(max_length=100)
+    assigned_to = models.CharField(max_length=100, blank=True, null=True)
 
 class Recipe(models.Model):
     name = models.CharField(max_length=100)
