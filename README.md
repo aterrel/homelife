@@ -2,6 +2,8 @@
 
 **HomeLife** is a task tracking app designed to streamline family life. It provides shared tools for managing calendars, meal plans, recipes, shopping lists, and tasks, all in one place.
 
+Note: This app is an experiment in using output mainly from GenAI systems to write something non tribial.
+
 ---
 
 ## Features
