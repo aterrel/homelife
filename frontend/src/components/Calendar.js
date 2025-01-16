@@ -4,13 +4,14 @@ import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import axios from 'axios';
 
-import AddEventForm from './AddEventForm';
+import EventModal from './EventModal';
 
 // Set up the localizer for the calendar using Moment.js
 const localizer = momentLocalizer(moment);
 
 const MyCalendar = () => {
     const [events, setEvents] = useState([]);
+    const [showModal, setShowModal] = useState(false);
 
     // Fetch events from the backend API
     const fetchEvents = async () => {
@@ -37,15 +38,25 @@ const MyCalendar = () => {
     };
 
     return (
-        <div style={{ height: '80vh', margin: '20px' }}>
+        <div style={{ margin: '20px' }}>
             <h2>Family Calendar</h2>
-            <AddEventForm onEventAdded={handleEventAdded} />
+            <button
+                className="btn btn-primary mb-3"
+                onClick={() => setShowModal(true)}
+            >
+                Add New Event
+            </button>
             <Calendar
                 localizer={localizer}
                 events={events}
                 startAccessor="start"
                 endAccessor="end"
                 style={{ height: 500 }}
+            />
+            <EventModal
+                show={showModal}
+                handleClose={() => setShowModal(false)}
+                onEventAdded={handleEventAdded}
             />
         </div>
     );
