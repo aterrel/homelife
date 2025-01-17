@@ -1,37 +1,51 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import axios from 'axios';
 
-const EventModal = ({ show, handleClose, onEventAdded }) => {
+const EventModal = ({ show, handleClose, event, onEventUpdated }) => {
     const [title, setTitle] = useState('');
     const [date, setDate] = useState('');
     const [time, setTime] = useState('');
 
+    useEffect(() => {
+        if (event) {
+            setTitle(event.title || '');
+            setDate(event.date || '');
+            setTime(event.time || '');
+        }
+    }, [event]);
+
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const newEvent = { title, date, time };
+        const updatedEvent = { title, date, time };
 
         try {
-            const response = await axios.post('/api/events/', newEvent, {
-                headers: { 'Content-Type': 'application/json' },
-            });
-            alert('Event added successfully');
-            onEventAdded(response.data);
+            if (event?.id) {
+                // Update existing event
+                await axios.put(`/api/events/${event.id}/`, updatedEvent, {
+                    headers: { 'Content-Type': 'application/json' },
+                });
+                alert('Event updated successfully');
+            } else {
+                const response = await axios.post('/api/events/', updatedEvent, {
+                    headers: { 'Content-Type': 'application/json' },
+                });
+                alert('Event added successfully');
+            }
+            onEventUpdated();
             handleClose();
-            setTitle('');
-            setDate('');
-            setTime('');
         } catch (error) {
-            console.error('Error adding event:', error.response.data);
-            alert('Failed to add event. Please check your input.');
+            console.error('Error saving event:', error.response.data);
+            alert('Failed to save event. Please check your input.');
         }
     };
 
     return (
         <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
-                <Modal.Title>Create New Event</Modal.Title>
+                <Modal.Title>{event ? 'Edit Event' : 'Create Event'}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={handleSubmit}>
@@ -69,7 +83,7 @@ const EventModal = ({ show, handleClose, onEventAdded }) => {
                 </Form>
             </Modal.Body>
         </Modal>
-    );
+    )
 };
 
 export default EventModal;

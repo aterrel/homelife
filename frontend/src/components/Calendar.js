@@ -11,6 +11,7 @@ const localizer = momentLocalizer(moment);
 
 const MyCalendar = () => {
     const [events, setEvents] = useState([]);
+    const [selectedEvent, setSelectedEvent] = useState(null);
     const [showModal, setShowModal] = useState(false);
 
     // Fetch events from the backend API
@@ -18,9 +19,12 @@ const MyCalendar = () => {
         try {
             const response = await axios.get('/api/events/');
             const formattedEvents = response.data.map(event => ({
+                id: event.id,
                 title: event.title,
                 start: new Date(`${event.date}T${event.time}`),
                 end: new Date(`${event.date}T${event.time}`),
+                date: event.date,
+                time: event.time,
             }));
             setEvents(formattedEvents);
         } catch (error) {
@@ -32,6 +36,11 @@ const MyCalendar = () => {
     useEffect(() => {
         fetchEvents();
     }, []);
+
+    const handleEventClick = (event) => {
+        setSelectedEvent(event);
+        setShowModal(true);
+    }
 
     const handleEventAdded = (newEvent) => {
         fetchEvents();
@@ -52,10 +61,12 @@ const MyCalendar = () => {
                 startAccessor="start"
                 endAccessor="end"
                 style={{ height: 500 }}
+                onSelectEvent={handleEventClick}
             />
             <EventModal
                 show={showModal}
                 handleClose={() => setShowModal(false)}
+                event={selectedEvent}
                 onEventAdded={handleEventAdded}
             />
         </div>
