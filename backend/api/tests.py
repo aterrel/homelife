@@ -16,3 +16,41 @@ class RecipeTestCase(TestCase):
         recipe = Recipe.objects.get(name='Spaghetti')
         self.assertIsNotNone(recipe.ingredients)
 
+
+from django.contrib.auth.models import User
+from django.urls import reverse
+from rest_framework.test import APITestCase
+from rest_framework import status
+
+class UserRegistrationTests(APITestCase):
+    fixtures = ['test_users.json']
+
+    def test_user_registration(self):
+        """Test that a new user can be created"""
+        url = reverse('register')
+        data = {
+            'username': 'newuser',
+            'password': 'testpass123',
+            'password2': 'testpass123',
+            'email': 'newuser@example.com',
+            'first_name': 'New',
+            'last_name': 'User'
+        }
+        response = self.client.post(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(User.objects.count(), 3)  # 2 from fixture + 1 new
+        self.assertEqual(User.objects.get(username='newuser').email, 'newuser@example.com')
+
+    def test_existing_user(self):
+        """Test that existing username cannot register again"""
+        url = reverse('register')
+        data = {
+            'username': 'testuser1',  # This username exists in fixture
+            'password': 'testpass123',
+            'password2': 'testpass123',
+            'email': 'another@example.com',
+            'first_name': 'Test',
+            'last_name': 'User'
+        }
+        response = self.client.post(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
