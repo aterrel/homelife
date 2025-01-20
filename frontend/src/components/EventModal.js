@@ -1,91 +1,83 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
-import axios from 'axios';
+import { eventApi } from '../services/api';
 
-const EventModal = ({ show, handleClose, event, onEventAdded }) => {
-    const [title, setTitle] = useState('');
-    const [date, setDate] = useState('');
-    const [time, setTime] = useState('');
-    const [error, setError] = useState('');
+const EventModal = ({ show, onHide, event, onEventAdded }) => {
+    const [formData, setFormData] = useState({
+        title: '',
+        date: '',
+        time: ''
+    });
 
     useEffect(() => {
         if (event) {
-            setTitle(event.title || '');
-            setDate(event.date || '');
-            setTime(event.time || '');
+            setFormData({
+                title: event.title,
+                date: event.date,
+                time: event.time || ''
+            });
         } else {
-            // Clear form when creating new event
-            setTitle('');
-            setDate('');
-            setTime('');
+            setFormData({
+                title: '',
+                date: '',
+                time: ''
+            });
         }
     }, [event]);
 
-    const getAuthHeaders = () => {
-        const token = localStorage.getItem('access_token');
-        return {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        };
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: value
+        }));
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError('');
-
-        const updatedEvent = { title, date, time };
-
         try {
-            if (!localStorage.getItem('access_token')) {
-                throw new Error('Please log in to create or edit events');
-            }
-
-            if (event?.id) {
-                // Update existing event
-                const response = await axios.put(`/api/events/${event.id}/`, updatedEvent, {
-                    headers: getAuthHeaders(),
-                });
-                if (response.data) {
-                    alert('Event updated successfully');
-                }
+            if (event) {
+                await eventApi.update(event.id, formData);
             } else {
-                const response = await axios.post('/api/events/', updatedEvent, {
-                    headers: getAuthHeaders(),
-                });
-                if (response.data) {
-                    alert('Event added successfully');
-                }
+                await eventApi.create(formData);
             }
-            onEventAdded && onEventAdded();
-            handleClose();
+            onEventAdded();
+            onHide();
         } catch (error) {
             console.error('Error saving event:', error);
-            if (error.response?.data) {
-                setError(Object.values(error.response.data)[0]?.[0] || 'Failed to save event');
-            } else {
-                setError(error.message || 'Failed to save event. Please check your input.');
+        }
+    };
+
+    const handleDelete = async () => {
+        if (!event) return;
+        
+        if (window.confirm('Are you sure you want to delete this event?')) {
+            try {
+                await eventApi.delete(event.id);
+                onEventAdded();
+                onHide();
+            } catch (error) {
+                console.error('Error deleting event:', error);
             }
         }
     };
 
     return (
-        <Modal show={show} onHide={handleClose}>
-            <Modal.Header closeButton>
-                <Modal.Title>{event ? 'Edit Event' : 'Create Event'}</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                {error && (
-                    <div className="alert alert-danger" role="alert">
-                        {error}
-                    </div>
-                )}
-                <Form onSubmit={handleSubmit}>
+        <Modal show={show} onHide={onHide}>
+            <Form onSubmit={handleSubmit}>
+                <Modal.Header closeButton>
+                    <Modal.Title>
+                        {event ? 'Edit Event' : 'Add New Event'}
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
                     <Form.Group className="mb-3">
-                        <Form.Label>Title</Form.Label>
+                        <Form.Label>Event Title</Form.Label>
                         <Form.Control
                             type="text"
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
+                            name="title"
+                            value={formData.title}
+                            onChange={handleInputChange}
                             required
                         />
                     </Form.Group>
@@ -93,30 +85,40 @@ const EventModal = ({ show, handleClose, event, onEventAdded }) => {
                         <Form.Label>Date</Form.Label>
                         <Form.Control
                             type="date"
-                            value={date}
-                            onChange={(e) => setDate(e.target.value)}
+                            name="date"
+                            value={formData.date}
+                            onChange={handleInputChange}
                             required
                         />
                     </Form.Group>
                     <Form.Group className="mb-3">
-                        <Form.Label>Time</Form.Label>
+                        <Form.Label>Time (optional)</Form.Label>
                         <Form.Control
                             type="time"
-                            value={time}
-                            onChange={(e) => setTime(e.target.value)}
-                            required
+                            name="time"
+                            value={formData.time}
+                            onChange={handleInputChange}
                         />
                     </Form.Group>
-                    <div className="d-flex justify-content-end">
-                        <Button variant="secondary" onClick={handleClose} className="me-2">
-                            Cancel
+                </Modal.Body>
+                <Modal.Footer>
+                    {event && (
+                        <Button 
+                            variant="danger" 
+                            className="me-auto"
+                            onClick={handleDelete}
+                        >
+                            Delete
                         </Button>
-                        <Button variant="primary" type="submit">
-                            {event ? 'Update Event' : 'Create Event'}
-                        </Button>
-                    </div>
-                </Form>
-            </Modal.Body>
+                    )}
+                    <Button variant="secondary" onClick={onHide}>
+                        Cancel
+                    </Button>
+                    <Button variant="primary" type="submit">
+                        {event ? 'Save Changes' : 'Add Event'}
+                    </Button>
+                </Modal.Footer>
+            </Form>
         </Modal>
     );
 };

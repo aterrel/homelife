@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import axios from 'axios';
 import { Card, Button } from 'react-bootstrap';
 
 import EventModal from './EventModal';
 import LoginModal from './LoginModal';
+import { eventApi } from '../services/api';
 
 // Set up the localizer for the calendar using Moment.js
 const localizer = momentLocalizer(moment);
@@ -20,17 +20,12 @@ const MyCalendar = ({ isLoggedIn, onLogin }) => {
     // Fetch events from the backend API
     const fetchEvents = async () => {
         try {
-            const token = localStorage.getItem('access_token');
-            const response = await axios.get('/api/events/', {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
+            const response = await eventApi.getAll();
             const formattedEvents = response.data.map(event => ({
                 id: event.id,
                 title: event.title,
-                start: new Date(`${event.date}T${event.time}`),
-                end: new Date(`${event.date}T${event.time}`),
+                start: new Date(`${event.date}T${event.time || '00:00:00'}`),
+                end: new Date(`${event.date}T${event.time || '00:00:00'}`),
                 date: event.date,
                 time: event.time,
             }));
@@ -101,7 +96,7 @@ const MyCalendar = ({ isLoggedIn, onLogin }) => {
                 className="mb-3"
                 onClick={() => setShowEventModal(true)}
             >
-                Add New Event
+                Add Event
             </Button>
             <Calendar
                 localizer={localizer}
@@ -113,14 +108,12 @@ const MyCalendar = ({ isLoggedIn, onLogin }) => {
             />
             <EventModal
                 show={showEventModal}
-                handleClose={() => setShowEventModal(false)}
+                onHide={() => {
+                    setShowEventModal(false);
+                    setSelectedEvent(null);
+                }}
                 event={selectedEvent}
                 onEventAdded={handleEventAdded}
-            />
-            <LoginModal
-                show={showLoginModal}
-                onHide={() => setShowLoginModal(false)}
-                onLogin={handleLogin}
             />
         </div>
     );
