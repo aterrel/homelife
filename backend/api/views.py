@@ -37,6 +37,59 @@ class RecipeViewSet(viewsets.ModelViewSet):
         logger.debug(f"Found {recipes.count()} recipes")
         return recipes
 
+    def create(self, request, *args, **kwargs):
+        logger.debug(f"Creating recipe with data: {request.data}")
+        ingredients_data = request.data.pop('ingredients', [])
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        recipe = serializer.save(user=self.request.user)
+        
+        # Handle ingredients
+        self._handle_ingredients(recipe, ingredients_data)
+        
+        # Get updated recipe data
+        updated_serializer = self.get_serializer(recipe)
+        return Response(updated_serializer.data, status=status.HTTP_201_CREATED)
+
+    def update(self, request, *args, **kwargs):
+        logger.debug(f"Updating recipe with data: {request.data}")
+        ingredients_data = request.data.pop('ingredients', [])
+        instance = self.get_object()
+        
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        recipe = serializer.save()
+
+        # Clear existing ingredients and add new ones
+        RecipeIngredient.objects.filter(recipe=recipe).delete()
+        self._handle_ingredients(recipe, ingredients_data)
+
+        # Get updated recipe data
+        updated_serializer = self.get_serializer(recipe)
+        return Response(updated_serializer.data)
+
+    def _handle_ingredients(self, recipe, ingredients_data):
+        """Helper method to handle ingredient creation and linking"""
+        logger.debug(f"Handling ingredients for recipe {recipe.id}: {ingredients_data}")
+        
+        for ing_data in ingredients_data:
+            ingredient_info = ing_data.get('ingredient', {})
+            
+            # Get or create the ingredient
+            ingredient, _ = Ingredient.objects.get_or_create(
+                name=ingredient_info['name'].lower(),
+                defaults={'category': 'other'}
+            )
+            
+            # Create the recipe-ingredient relationship
+            RecipeIngredient.objects.create(
+                recipe=recipe,
+                ingredient=ingredient,
+                quantity=ing_data.get('quantity', 0),
+                unit=ing_data.get('unit', ''),
+                notes=ing_data.get('notes', '')
+            )
+        
     def list(self, request, *args, **kwargs):
         logger.debug(f"Recipe list request from user: {request.user}")
         logger.debug(f"Auth header: {request.headers.get('Authorization')}")

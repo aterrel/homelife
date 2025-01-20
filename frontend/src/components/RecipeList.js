@@ -1,33 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Form, InputGroup, Row, Col, Button } from 'react-bootstrap';
-import RecipeModal from './RecipeModal';
+import { Container, Row, Col, Card, Form, Button, InputGroup } from 'react-bootstrap';
 import { recipeApi } from '../services/api';
+import RecipeModal from './RecipeModal';
+import RecipeEditModal from './RecipeEditModal';
+import '../styles/Recipe.css';
 
 const RecipeList = () => {
     const [recipes, setRecipes] = useState([]);
-    const [searchTerm, setSearchTerm] = useState('');
     const [filteredRecipes, setFilteredRecipes] = useState([]);
-    const [selectedRecipe, setSelectedRecipe] = useState(null);
-    const [showModal, setShowModal] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
-    const fetchRecipes = async () => {
-        try {
-            setLoading(true);
-            setError(null);
-            const response = await recipeApi.getAll();
-            setRecipes(response.data);
-            setFilteredRecipes(response.data);
-        } catch (error) {
-            console.error('Error fetching recipes:', error);
-            setError('Failed to load recipes. Please try again later.');
-            setRecipes([]);
-            setFilteredRecipes([]);
-        } finally {
-            setLoading(false);
-        }
-    };
+    const [selectedRecipe, setSelectedRecipe] = useState(null);
+    const [showViewModal, setShowViewModal] = useState(false);
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [editingRecipe, setEditingRecipe] = useState(null);
 
     useEffect(() => {
         fetchRecipes();
@@ -44,6 +31,51 @@ const RecipeList = () => {
         setFilteredRecipes(filtered);
     }, [searchTerm, recipes]);
 
+    const fetchRecipes = async () => {
+        try {
+            setLoading(true);
+            const response = await recipeApi.getAll();
+            setRecipes(response.data);
+            setError(null);
+        } catch (err) {
+            setError('Failed to fetch recipes. Please try again later.');
+            console.error('Error fetching recipes:', err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleViewRecipe = (recipe) => {
+        setSelectedRecipe(recipe);
+        setShowViewModal(true);
+    };
+
+    const handleAddRecipe = () => {
+        setEditingRecipe(null);
+        setShowEditModal(true);
+    };
+
+    const handleEditRecipe = (recipe) => {
+        setEditingRecipe(recipe);
+        setShowEditModal(true);
+    };
+
+    const handleSaveRecipe = async (savedRecipe) => {
+        await fetchRecipes(); // Refresh the recipe list
+    };
+
+    const handleDeleteRecipe = async (recipeId) => {
+        if (window.confirm('Are you sure you want to delete this recipe?')) {
+            try {
+                await recipeApi.delete(recipeId);
+                await fetchRecipes(); // Refresh the recipe list
+            } catch (error) {
+                console.error('Error deleting recipe:', error);
+                // TODO: Add error handling UI
+            }
+        }
+    };
+
     const truncateText = (text, lines = 3) => {
         if (!text) return '';
         const splitText = text.split('\n');
@@ -53,56 +85,24 @@ const RecipeList = () => {
         return text;
     };
 
-    const handleRecipeClick = async (recipe) => {
-        try {
-            setLoading(true);
-            const response = await recipeApi.get(recipe.id);
-            setSelectedRecipe(response.data);
-            setShowModal(true);
-        } catch (error) {
-            console.error('Error fetching recipe details:', error);
-            setError('Failed to load recipe details. Please try again.');
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    const handleCloseModal = () => {
-        setShowModal(false);
-        setSelectedRecipe(null);
-    };
-
-    if (loading && recipes.length === 0) {
-        return (
-            <div className="container mt-4 text-center">
-                <p>Loading recipes...</p>
-            </div>
-        );
+    if (loading) {
+        return <div>Loading recipes...</div>;
     }
 
-    if (error && recipes.length === 0) {
-        return (
-            <div className="container mt-4">
-                <div className="alert alert-danger" role="alert">
-                    {error}
-                </div>
-            </div>
-        );
+    if (error) {
+        return <div className="text-danger">{error}</div>;
     }
 
     return (
-        <div className="container mt-4">
+        <Container>
             <div className="d-flex justify-content-between align-items-center mb-4">
-                <h2>Recipe Collection</h2>
-            </div>
-
-            <Form className="mb-4">
                 <InputGroup>
                     <Form.Control
                         type="text"
                         placeholder="Search recipes..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
+                        className="w-50"
                     />
                     {searchTerm && (
                         <Button 
@@ -113,49 +113,72 @@ const RecipeList = () => {
                         </Button>
                     )}
                 </InputGroup>
-            </Form>
+                <Button variant="primary" onClick={handleAddRecipe}>
+                    Add New Recipe
+                </Button>
+            </div>
 
-            {filteredRecipes.length === 0 ? (
-                <div className="text-center mt-4">
-                    <p>No recipes found. Try adjusting your search.</p>
-                </div>
-            ) : (
-                <Row xs={1} md={2} lg={3} className="g-4">
-                    {filteredRecipes.map((recipe) => (
-                        <Col key={recipe.id}>
-                            <Card 
-                                className="h-100 recipe-card" 
-                                onClick={() => handleRecipeClick(recipe)}
-                                style={{ cursor: 'pointer' }}
-                            >
-                                <Card.Body>
-                                    <Card.Title>{recipe.name}</Card.Title>
-                                    {recipe.description && (
-                                        <Card.Text className="text-muted small">
-                                            {truncateText(recipe.description, 2)}
-                                        </Card.Text>
-                                    )}
-                                    <div className="mt-2 small">
-                                        <div><strong>Prep:</strong> {recipe.prep_time} min</div>
-                                        <div><strong>Cook:</strong> {recipe.cook_time} min</div>
-                                        <div><strong>Servings:</strong> {recipe.servings}</div>
+            <Row xs={1} md={2} lg={3} className="g-4">
+                {filteredRecipes.map((recipe) => (
+                    <Col key={recipe.id}>
+                        <Card className="h-100">
+                            <Card.Body>
+                                <Card.Title>{recipe.name}</Card.Title>
+                                {recipe.description && (
+                                    <Card.Text className="text-muted small">
+                                        {truncateText(recipe.description, 2)}
+                                    </Card.Text>
+                                )}
+                                <div className="mt-2 small">
+                                    <div><strong>Prep:</strong> {recipe.prep_time} min</div>
+                                    <div><strong>Cook:</strong> {recipe.cook_time} min</div>
+                                    <div><strong>Servings:</strong> {recipe.servings}</div>
+                                </div>
+                                <div className="d-flex justify-content-between">
+                                    <Button
+                                        variant="outline-primary"
+                                        onClick={() => handleViewRecipe(recipe)}
+                                    >
+                                        View
+                                    </Button>
+                                    <div>
+                                        <Button
+                                            variant="outline-secondary"
+                                            onClick={() => handleEditRecipe(recipe)}
+                                            className="me-2"
+                                        >
+                                            Edit
+                                        </Button>
+                                        <Button
+                                            variant="outline-danger"
+                                            onClick={() => handleDeleteRecipe(recipe.id)}
+                                        >
+                                            Delete
+                                        </Button>
                                     </div>
-                                </Card.Body>
-                                <Card.Footer className="text-muted">
-                                    <small>Click to view full recipe</small>
-                                </Card.Footer>
-                            </Card>
-                        </Col>
-                    ))}
-                </Row>
-            )}
+                                </div>
+                            </Card.Body>
+                            <Card.Footer className="text-muted">
+                                <small>Click to view full recipe</small>
+                            </Card.Footer>
+                        </Card>
+                    </Col>
+                ))}
+            </Row>
 
             <RecipeModal
-                show={showModal}
-                handleClose={handleCloseModal}
+                show={showViewModal}
+                handleClose={() => setShowViewModal(false)}
                 recipe={selectedRecipe}
             />
-        </div>
+
+            <RecipeEditModal
+                show={showEditModal}
+                handleClose={() => setShowEditModal(false)}
+                recipe={editingRecipe}
+                onSave={handleSaveRecipe}
+            />
+        </Container>
     );
 };
 

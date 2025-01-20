@@ -54,9 +54,18 @@ export const recipeApi = {
         return api.get('/recipes/');
     },
     get: (id) => api.get(`/recipes/${id}/`),
-    create: (data) => api.post('/recipes/', data),
-    update: (id, data) => api.put(`/recipes/${id}/`, data),
-    delete: (id) => api.delete(`/recipes/${id}/`),
+    create: (data) => {
+        console.log('Creating recipe:', data);
+        return api.post('/recipes/', data);
+    },
+    update: (id, data) => {
+        console.log('Updating recipe:', id, data);
+        return api.put(`/recipes/${id}/`, data);
+    },
+    delete: (id) => {
+        console.log('Deleting recipe:', id);
+        return api.delete(`/recipes/${id}/`);
+    },
     importFromUrl: (url) => api.post('/recipes/import_from_url/', { url }),
 };
 
