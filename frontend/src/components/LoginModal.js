@@ -47,14 +47,37 @@ const LoginModal = ({ show, onHide, onLogin }) => {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.detail || 'An error occurred');
+        throw new Error(data.detail || Object.values(data)[0]?.[0] || 'An error occurred');
       }
 
       if (!isRegistering) {
-        localStorage.setItem('token', data.token);
+        // Store both tokens
+        localStorage.setItem('access_token', data.access);
+        localStorage.setItem('refresh_token', data.refresh);
+      } else {
+        // After successful registration, automatically log in
+        const loginResponse = await fetch('/api/token/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            username: formData.username,
+            password: formData.password,
+          }),
+        });
+
+        const loginData = await loginResponse.json();
+        if (!loginResponse.ok) {
+          throw new Error('Registration successful but login failed');
+        }
+
+        localStorage.setItem('access_token', loginData.access);
+        localStorage.setItem('refresh_token', loginData.refresh);
       }
       
       onLogin({ username: formData.username });
+      onHide();
     } catch (err) {
       setError(err.message);
     }
@@ -153,7 +176,18 @@ const LoginModal = ({ show, onHide, onLogin }) => {
       <Modal.Footer className="justify-content-center">
         <Button
           variant="link"
-          onClick={() => setIsRegistering(!isRegistering)}
+          onClick={() => {
+            setIsRegistering(!isRegistering);
+            setError('');
+            setFormData({
+              username: '',
+              password: '',
+              password2: '',
+              email: '',
+              firstName: '',
+              lastName: ''
+            });
+          }}
         >
           {isRegistering ? 'Already have an account? Login' : "Don't have an account? Register"}
         </Button>

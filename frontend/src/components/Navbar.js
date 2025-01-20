@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import LoginModal from './LoginModal';
 import { Navbar as BootstrapNavbar, Nav, Container, Button } from 'react-bootstrap';
 
@@ -7,16 +7,28 @@ const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState('');
 
+  useEffect(() => {
+    // Check if user is logged in on component mount
+    const token = localStorage.getItem('access_token');
+    const storedUsername = localStorage.getItem('username');
+    if (token && storedUsername) {
+      setIsLoggedIn(true);
+      setUsername(storedUsername);
+    }
+  }, []);
+
   const handleLogin = (userData) => {
     setIsLoggedIn(true);
     setUsername(userData.username);
-    setShowLoginModal(false);
+    localStorage.setItem('username', userData.username);
   };
 
   const handleLogout = () => {
     setIsLoggedIn(false);
     setUsername('');
-    localStorage.removeItem('token');
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+    localStorage.removeItem('username');
   };
 
   return (
