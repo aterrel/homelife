@@ -1,0 +1,112 @@
+[
+    {
+        "model": "api.ingredient",
+        "pk": 1,
+        "fields": {
+            "name": "All-purpose flour",
+            "description": "Basic wheat flour for baking and cooking",
+            "category": "pantry",
+            "created_at": "2025-01-20T06:24:22-06:00",
+            "updated_at": "2025-01-20T06:24:22-06:00"
+        }
+    },
+    {
+        "model": "api.ingredient",
+        "pk": 2,
+        "fields": {
+            "name": "Granulated sugar",
+            "description": "Regular white sugar",
+            "category": "pantry",
+            "created_at": "2025-01-20T06:24:22-06:00",
+            "updated_at": "2025-01-20T06:24:22-06:00"
+        }
+    },
+    {
+        "model": "api.ingredient",
+        "pk": 3,
+        "fields": {
+            "name": "Salt",
+            "description": "Regular table salt",
+            "category": "spices",
+            "created_at": "2025-01-20T06:24:22-06:00",
+            "updated_at": "2025-01-20T06:24:22-06:00"
+        }
+    },
+    {
+        "model": "api.ingredient",
+        "pk": 4,
+        "fields": {
+            "name": "Butter",
+            "description": "Unsalted butter",
+            "category": "dairy",
+            "created_at": "2025-01-20T06:24:22-06:00",
+            "updated_at": "2025-01-20T06:24:22-06:00"
+        }
+    },
+    {
+        "model": "api.ingredient",
+        "pk": 5,
+        "fields": {
+            "name": "Eggs",
+            "description": "Large chicken eggs",
+            "category": "dairy",
+            "created_at": "2025-01-20T06:24:22-06:00",
+            "updated_at": "2025-01-20T06:24:22-06:00"
+        }
+    },
+    {
+        "model": "api.ingredient",
+        "pk": 6,
+        "fields": {
+            "name": "Milk",
+            "description": "Whole milk",
+            "category": "dairy",
+            "created_at": "2025-01-20T06:24:22-06:00",
+            "updated_at": "2025-01-20T06:24:22-06:00"
+        }
+    },
+    {
+        "model": "api.ingredient",
+        "pk": 7,
+        "fields": {
+            "name": "Vanilla extract",
+            "description": "Pure vanilla extract",
+            "category": "pantry",
+            "created_at": "2025-01-20T06:24:22-06:00",
+            "updated_at": "2025-01-20T06:24:22-06:00"
+        }
+    },
+    {
+        "model": "api.ingredient",
+        "pk": 8,
+        "fields": {
+            "name": "Baking powder",
+            "description": "Leavening agent",
+            "category": "pantry",
+            "created_at": "2025-01-20T06:24:22-06:00",
+            "updated_at": "2025-01-20T06:24:22-06:00"
+        }
+    },
+    {
+        "model": "api.ingredient",
+        "pk": 9,
+        "fields": {
+            "name": "Chicken breast",
+            "description": "Boneless, skinless chicken breast",
+            "category": "meat",
+            "created_at": "2025-01-20T06:24:22-06:00",
+            "updated_at": "2025-01-20T06:24:22-06:00"
+        }
+    },
+    {
+        "model": "api.ingredient",
+        "pk": 10,
+        "fields": {
+            "name": "Olive oil",
+            "description": "Extra virgin olive oil",
+            "category": "pantry",
+            "created_at": "2025-01-20T06:24:22-06:00",
+            "updated_at": "2025-01-20T06:24:22-06:00"
+        }
+    }
+]
