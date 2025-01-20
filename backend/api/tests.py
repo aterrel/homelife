@@ -1,13 +1,19 @@
 from django.test import TestCase
+from django.contrib.auth.models import User
+from django.urls import reverse
+from rest_framework.test import APITestCase
+from rest_framework import status
 
 from .models import Event, Recipe
 
 class EventTestCase(TestCase):
-    fixtures = ['event_data.json']
+    fixtures = ['test_users.json', 'event_data.json']
 
     def test_event(self):
         event = Event.objects.get(title='Soccer Practice')
-        self.assertEqual(event.assigned_to, 'Mom')
+        user = User.objects.get(username='testuser1')
+        self.assertEqual(event.title, 'Soccer Practice')
+        self.assertEqual(event.user, user)
 
 class RecipeTestCase(TestCase):
     fixtures = ['recipe_data.json']
@@ -15,12 +21,6 @@ class RecipeTestCase(TestCase):
     def test_recipe(self):
         recipe = Recipe.objects.get(name='Spaghetti')
         self.assertIsNotNone(recipe.ingredients)
-
-
-from django.contrib.auth.models import User
-from django.urls import reverse
-from rest_framework.test import APITestCase
-from rest_framework import status
 
 class UserRegistrationTests(APITestCase):
     fixtures = ['test_users.json']

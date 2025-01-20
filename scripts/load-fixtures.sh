@@ -1,27 +1,31 @@
 #!/bin/bash
-set -e
 
-# Get the directory of this script
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+# Get the directory of the script
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-# Change to the project root directory
-cd "$DIR/../backend"
+# Go to the project root directory (one level up from scripts)
+cd "$SCRIPT_DIR/../backend"
 
-# Activate virtual environment if it exists
-if [ -d "../venv" ]; then
-    source ../venv/bin/activate
-fi
-
-# First flush the database
-echo "Flushing existing data..."
+# Flush the database
+echo "Flushing the database..."
 python manage.py flush --no-input
 
 # Load all fixtures
 echo "Loading fixtures..."
-python manage.py loaddata api/fixtures/test_users.json
-# Add more fixtures here as needed
+python manage.py loaddata api/fixtures/*.json
 
-# Deactivate virtual environment if it was activated
-if [ -n "$VIRTUAL_ENV" ]; then
-    deactivate
-fi
+# Create test users with proper passwords
+echo "Creating test users..."
+python manage.py shell << EOF
+from django.contrib.auth.models import User
+# Update testuser1
+user = User.objects.get(username='testuser1')
+user.set_password('testpass123')
+user.save()
+# Update adminuser
+admin = User.objects.get(username='adminuser')
+admin.set_password('testpass123')
+admin.save()
+EOF
+
+echo "Fixtures loaded successfully!"
