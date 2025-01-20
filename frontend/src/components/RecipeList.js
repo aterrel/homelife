@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, Form, Button, InputGroup } from 'react-bootstrap';
+import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap';
 import { recipeApi } from '../services/api';
 import RecipeModal from './RecipeModal';
 import RecipeEditModal from './RecipeEditModal';
@@ -69,20 +69,12 @@ const RecipeList = () => {
             try {
                 await recipeApi.delete(recipeId);
                 await fetchRecipes(); // Refresh the recipe list
+                setShowViewModal(false); // Close the modal if open
             } catch (error) {
                 console.error('Error deleting recipe:', error);
                 // TODO: Add error handling UI
             }
         }
-    };
-
-    const truncateText = (text, lines = 3) => {
-        if (!text) return '';
-        const splitText = text.split('\n');
-        if (splitText.length > lines) {
-            return splitText.slice(0, lines).join('\n') + '\n...';
-        }
-        return text;
     };
 
     if (loading) {
@@ -96,23 +88,13 @@ const RecipeList = () => {
     return (
         <Container>
             <div className="d-flex justify-content-between align-items-center mb-4">
-                <InputGroup>
-                    <Form.Control
-                        type="text"
-                        placeholder="Search recipes..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-50"
-                    />
-                    {searchTerm && (
-                        <Button 
-                            variant="outline-secondary"
-                            onClick={() => setSearchTerm('')}
-                        >
-                            Clear
-                        </Button>
-                    )}
-                </InputGroup>
+                <Form.Control
+                    type="text"
+                    placeholder="Search recipes..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="w-50"
+                />
                 <Button variant="primary" onClick={handleAddRecipe}>
                     Add New Recipe
                 </Button>
@@ -121,45 +103,24 @@ const RecipeList = () => {
             <Row xs={1} md={2} lg={3} className="g-4">
                 {filteredRecipes.map((recipe) => (
                     <Col key={recipe.id}>
-                        <Card className="h-100">
+                        <Card 
+                            className="h-100 recipe-card" 
+                            onClick={() => handleViewRecipe(recipe)}
+                            style={{ cursor: 'pointer' }}
+                        >
                             <Card.Body>
                                 <Card.Title>{recipe.name}</Card.Title>
-                                {recipe.description && (
-                                    <Card.Text className="text-muted small">
-                                        {truncateText(recipe.description, 2)}
-                                    </Card.Text>
-                                )}
+                                <Card.Text>
+                                    {recipe.description || 'No description available'}
+                                </Card.Text>
                                 <div className="mt-2 small">
                                     <div><strong>Prep:</strong> {recipe.prep_time} min</div>
                                     <div><strong>Cook:</strong> {recipe.cook_time} min</div>
                                     <div><strong>Servings:</strong> {recipe.servings}</div>
                                 </div>
-                                <div className="d-flex justify-content-between">
-                                    <Button
-                                        variant="outline-primary"
-                                        onClick={() => handleViewRecipe(recipe)}
-                                    >
-                                        View
-                                    </Button>
-                                    <div>
-                                        <Button
-                                            variant="outline-secondary"
-                                            onClick={() => handleEditRecipe(recipe)}
-                                            className="me-2"
-                                        >
-                                            Edit
-                                        </Button>
-                                        <Button
-                                            variant="outline-danger"
-                                            onClick={() => handleDeleteRecipe(recipe.id)}
-                                        >
-                                            Delete
-                                        </Button>
-                                    </div>
-                                </div>
                             </Card.Body>
                             <Card.Footer className="text-muted">
-                                <small>Click to view full recipe</small>
+                                <small>Click to view details</small>
                             </Card.Footer>
                         </Card>
                     </Col>
@@ -170,6 +131,8 @@ const RecipeList = () => {
                 show={showViewModal}
                 handleClose={() => setShowViewModal(false)}
                 recipe={selectedRecipe}
+                onEdit={handleEditRecipe}
+                onDelete={handleDeleteRecipe}
             />
 
             <RecipeEditModal

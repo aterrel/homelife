@@ -2,7 +2,7 @@ import React from 'react';
 import { Modal, Button, ListGroup } from 'react-bootstrap';
 import '../styles/Recipe.css';
 
-const RecipeModal = ({ show, handleClose, recipe }) => {
+const RecipeModal = ({ show, handleClose, recipe, onEdit, onDelete }) => {
     if (!recipe) return null;
 
     // Format ingredient with quantity, unit, and notes
@@ -58,9 +58,26 @@ const RecipeModal = ({ show, handleClose, recipe }) => {
                 </small>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
-                    Close
-                </Button>
+                <div className="d-flex justify-content-between w-100">
+                    <div>
+                        <Button
+                            variant="outline-danger"
+                            onClick={() => onDelete(recipe.id)}
+                            className="me-2"
+                        >
+                            Delete Recipe
+                        </Button>
+                        <Button
+                            variant="outline-primary"
+                            onClick={() => onEdit(recipe)}
+                        >
+                            Edit Recipe
+                        </Button>
+                    </div>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+                    </Button>
+                </div>
             </Modal.Footer>
         </Modal>
     );
