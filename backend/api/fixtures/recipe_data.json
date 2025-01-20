@@ -1,11 +1,47 @@
 [
-{
-    "model": "api.recipe",
-    "pk": 1,
-    "fields": {
-        "name": "Spaghetti",
-        "ingredients": "For the pasta:\r\n\r\n- 400g (14 oz) spaghetti\r\n- 1 tablespoon salt (for boiling water)\r\n- 1 tablespoon olive oil (optional)\r\n\r\nFor the marinara sauce:\r\n\r\n- 2 tablespoons olive oil\r\n- 1 medium onion, finely chopped\r\n- 4 garlic cloves, minced\r\n- 1 can (28 oz) crushed tomatoes\r\n- 1 teaspoon dried oregano\r\n- 1/2 teaspoon dried basil\r\n- 1/2 teaspoon red chili flakes (optional)\r\n- 1 teaspoon sugar (to balance acidity)\r\n- Salt and pepper to taste\r\n- Fresh basil leaves for garnish (optional)\r\n\r\nOptional toppings:\r\n\r\n- Grated Parmesan cheese\r\n- Freshly ground black pepper",
-        "instructions": "1. Cook the spaghetti:\r\n\r\n- Bring a large pot of water to a boil.\r\n- Add 1 tablespoon of salt and the spaghetti.\r\n- Cook according to the package instructions (usually 8–10 minutes) until al dente.\r\n- Drain the pasta, toss with olive oil (optional), and set aside.\r\n\r\n2. Prepare the marinara sauce:\r\n\r\n- Heat olive oil in a large skillet over medium heat.\r\n- Add the chopped onion and sauté until soft and translucent (about 5 minutes).\r\n- Add minced garlic and cook for another 1–2 minutes, stirring frequently to prevent burning.\r\n- Stir in the crushed tomatoes, dried oregano, dried basil, chili flakes (if using), and sugar.\r\n- Season with salt and pepper to taste.\r\n- Simmer the sauce on low heat for 15–20 minutes, stirring occasionally. Adjust seasoning if needed.\r\n\r\n3. Combine pasta and sauce:\r\n\r\n- Add the cooked spaghetti to the skillet with the marinara sauce.\r\n- Toss gently to coat the pasta evenly with the sauce.\r\n\r\n4. Serve:\r\n\r\n- Divide the spaghetti among serving plates.\r\n- Garnish with fresh basil leaves, grated Parmesan cheese, and a sprinkle of black pepper.\r\n\r\n5. Enjoy!\r\n\r\n- Serve immediately with a side of garlic bread or a fresh green salad."
+    {
+        "model": "api.recipe",
+        "pk": 1,
+        "fields": {
+            "name": "Classic Spaghetti Marinara",
+            "ingredients": "For the pasta:\r\n- 400g (14 oz) spaghetti\r\n- 1 tablespoon salt (for boiling water)\r\n- 1 tablespoon olive oil (optional)\r\n\r\nFor the marinara sauce:\r\n- 2 tablespoons olive oil\r\n- 1 medium onion, finely chopped\r\n- 4 garlic cloves, minced\r\n- 1 can (28 oz) crushed tomatoes\r\n- 1 teaspoon dried oregano\r\n- 1/2 teaspoon dried basil\r\n- 1/2 teaspoon red chili flakes (optional)\r\n- 1 teaspoon sugar (to balance acidity)\r\n- Salt and pepper to taste\r\n- Fresh basil leaves for garnish",
+            "instructions": "1. Cook the spaghetti:\r\n- Bring a large pot of water to a boil\r\n- Add salt and spaghetti\r\n- Cook until al dente (8-10 minutes)\r\n- Drain and set aside\r\n\r\n2. Make the sauce:\r\n- Heat oil in large skillet\r\n- Sauté onion until soft (5 mins)\r\n- Add garlic, cook 1-2 mins\r\n- Add tomatoes and seasonings\r\n- Simmer 15-20 minutes\r\n\r\n3. Combine and serve:\r\n- Toss pasta with sauce\r\n- Garnish with basil\r\n- Serve hot"
+        }
+    },
+    {
+        "model": "api.recipe",
+        "pk": 2,
+        "fields": {
+            "name": "Chocolate Chip Cookies",
+            "ingredients": "- 2 1/4 cups all-purpose flour\r\n- 1 teaspoon baking soda\r\n- 1 teaspoon salt\r\n- 1 cup unsalted butter, softened\r\n- 3/4 cup granulated sugar\r\n- 3/4 cup packed brown sugar\r\n- 2 large eggs\r\n- 2 teaspoons vanilla extract\r\n- 2 cups semi-sweet chocolate chips\r\n- 1 cup chopped nuts (optional)",
+            "instructions": "1. Prep (15 mins):\r\n- Preheat oven to 375°F (190°C)\r\n- Line baking sheets with parchment\r\n- Whisk flour, baking soda, salt\r\n\r\n2. Make dough:\r\n- Cream butter and sugars (3-5 mins)\r\n- Beat in eggs and vanilla\r\n- Gradually mix in flour mixture\r\n- Stir in chocolate chips\r\n\r\n3. Bake (9-11 mins):\r\n- Drop rounded tablespoons onto sheets\r\n- Bake until golden brown\r\n- Cool on wire rack\r\n\r\nMakes about 24 cookies"
+        }
+    },
+    {
+        "model": "api.recipe",
+        "pk": 3,
+        "fields": {
+            "name": "Quick Chicken Stir-Fry",
+            "ingredients": "Protein:\r\n- 2 chicken breasts, sliced\r\n- 2 tbsp soy sauce\r\n- 1 tbsp cornstarch\r\n\r\nVegetables:\r\n- 2 cups broccoli florets\r\n- 1 red bell pepper, sliced\r\n- 2 carrots, julienned\r\n- 1 cup snap peas\r\n\r\nSauce:\r\n- 1/4 cup soy sauce\r\n- 2 tbsp oyster sauce\r\n- 1 tbsp sesame oil\r\n- 2 cloves garlic, minced\r\n- 1 tbsp ginger, grated",
+            "instructions": "1. Prep (10 mins):\r\n- Slice chicken, marinate in soy sauce & cornstarch\r\n- Cut all vegetables\r\n- Mix sauce ingredients\r\n\r\n2. Cook (15 mins):\r\n- Stir-fry chicken until done\r\n- Remove chicken, cook vegetables\r\n- Add sauce, simmer 2 mins\r\n- Return chicken, heat through\r\n\r\n3. Serve:\r\n- Over steamed rice\r\n- Garnish with sesame seeds"
+        }
+    },
+    {
+        "model": "api.recipe",
+        "pk": 4,
+        "fields": {
+            "name": "Overnight Oats",
+            "ingredients": "Base:\r\n- 1/2 cup rolled oats\r\n- 1/2 cup milk (any kind)\r\n- 1/4 cup yogurt\r\n- 1 tbsp chia seeds\r\n- 1 tbsp honey\r\n\r\nToppings (optional):\r\n- Fresh berries\r\n- Sliced banana\r\n- Nuts or seeds\r\n- Cinnamon\r\n- Nut butter",
+            "instructions": "1. Evening prep:\r\n- Mix oats, milk, yogurt in jar\r\n- Add chia seeds and honey\r\n- Stir well\r\n- Cover and refrigerate\r\n\r\n2. Morning:\r\n- Stir mixture\r\n- Add toppings\r\n- Enjoy cold or warm\r\n\r\nStores up to 3 days"
+        }
+    },
+    {
+        "model": "api.recipe",
+        "pk": 5,
+        "fields": {
+            "name": "Guacamole",
+            "ingredients": "- 3 ripe avocados\r\n- 1 lime, juiced\r\n- 1/2 red onion, diced\r\n- 2 Roma tomatoes, diced\r\n- 1/3 cup fresh cilantro, chopped\r\n- 1 jalapeño, minced (optional)\r\n- Salt and pepper to taste\r\n- 1 clove garlic, minced",
+            "instructions": "1. Prep ingredients:\r\n- Dice onion, tomatoes, cilantro\r\n- Mince jalapeño and garlic\r\n- Juice lime\r\n\r\n2. Make guacamole:\r\n- Mash avocados\r\n- Mix in all ingredients\r\n- Season to taste\r\n\r\n3. Serve:\r\n- Cover with plastic wrap\r\n- Refrigerate until serving\r\n- Best eaten same day"
+        }
     }
-}
 ]

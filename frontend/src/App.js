@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import Navbar from './components/Navbar';
 import MyCalendar from './components/Calendar';
+import RecipeList from './components/RecipeList';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -32,20 +34,43 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <Navbar 
-        isLoggedIn={isLoggedIn} 
-        username={username} 
-        onLogin={handleLogin}
-        onLogout={handleLogout}
-      />
-      <main className="container">
-        <MyCalendar 
-          isLoggedIn={isLoggedIn}
+    <Router>
+      <div className="App">
+        <Navbar 
+          isLoggedIn={isLoggedIn} 
+          username={username} 
           onLogin={handleLogin}
+          onLogout={handleLogout}
         />
-      </main>
-    </div>
+        <main className="container py-4">
+          <Routes>
+            <Route 
+              path="/" 
+              element={
+                <MyCalendar 
+                  isLoggedIn={isLoggedIn}
+                  onLogin={handleLogin}
+                />
+              } 
+            />
+            <Route 
+              path="/events" 
+              element={
+                <Navigate to="/" replace />
+              }
+            />
+            <Route 
+              path="/recipes" 
+              element={
+                <RecipeList 
+                  isLoggedIn={isLoggedIn}
+                />
+              }
+            />
+          </Routes>
+        </main>
+      </div>
+    </Router>
   );
 }
 
