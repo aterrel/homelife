@@ -24,7 +24,8 @@
             "quantity": 1.5,
             "unit": "cup",
             "optional": false,
-            "notes": "sifted"
+            "notes": "sifted",
+            "order": 0
         }
     },
     {
@@ -36,7 +37,8 @@
             "quantity": 3.5,
             "unit": "tsp",
             "optional": false,
-            "notes": ""
+            "notes": "",
+            "order": 1
         }
     },
     {
@@ -48,7 +50,8 @@
             "quantity": 0.25,
             "unit": "tsp",
             "optional": false,
-            "notes": ""
+            "notes": "",
+            "order": 2
         }
     },
     {
@@ -60,7 +63,8 @@
             "quantity": 1,
             "unit": "tbsp",
             "optional": false,
-            "notes": ""
+            "notes": "",
+            "order": 3
         }
     },
     {
@@ -72,7 +76,8 @@
             "quantity": 1.25,
             "unit": "cup",
             "optional": false,
-            "notes": "room temperature"
+            "notes": "room temperature",
+            "order": 4
         }
     },
     {
@@ -84,7 +89,8 @@
             "quantity": 1,
             "unit": "whole",
             "optional": false,
-            "notes": "large"
+            "notes": "large",
+            "order": 5
         }
     },
     {
@@ -96,7 +102,8 @@
             "quantity": 3,
             "unit": "tbsp",
             "optional": false,
-            "notes": "melted"
+            "notes": "melted",
+            "order": 6
         }
     }
 ]

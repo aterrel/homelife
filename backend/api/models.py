@@ -78,9 +78,10 @@ class RecipeIngredient(models.Model):
     ])
     optional = models.BooleanField(default=False)
     notes = models.CharField(max_length=200, blank=True)
+    order = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return f"{self.quantity} {self.unit} {self.ingredient.name}"
 
     class Meta:
-        ordering = ['recipe', 'ingredient']
+        ordering = ['order', 'id']

@@ -2,6 +2,53 @@ import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form, Row, Col, ListGroup } from 'react-bootstrap';
 import { recipeApi } from '../services/api';
 
+const IngredientList = ({ ingredients, onRemove, onMoveUp, onMoveDown }) => {
+    return (
+        <ListGroup className="mb-3">
+            {ingredients.map((ingredient, index) => (
+                <ListGroup.Item 
+                    key={index} 
+                    className="d-flex justify-content-between align-items-center"
+                >
+                    <div className="d-flex align-items-center">
+                        <div className="me-3 d-flex flex-column">
+                            <Button
+                                variant="link"
+                                size="sm"
+                                className="p-0 m-0"
+                                onClick={() => onMoveUp(index)}
+                                disabled={index === 0}
+                            >
+                                ↑
+                            </Button>
+                            <Button
+                                variant="link"
+                                size="sm"
+                                className="p-0 m-0"
+                                onClick={() => onMoveDown(index)}
+                                disabled={index === ingredients.length - 1}
+                            >
+                                ↓
+                            </Button>
+                        </div>
+                        <span>
+                            {ingredient.quantity} {ingredient.unit} {ingredient.name}
+                            {ingredient.notes && ` (${ingredient.notes})`}
+                        </span>
+                    </div>
+                    <Button
+                        variant="outline-danger"
+                        size="sm"
+                        onClick={() => onRemove(index)}
+                    >
+                        Remove
+                    </Button>
+                </ListGroup.Item>
+            ))}
+        </ListGroup>
+    );
+};
+
 const RecipeEditModal = ({ show, handleClose, recipe, onSave }) => {
     const [formData, setFormData] = useState({
         name: '',
@@ -24,26 +71,27 @@ const RecipeEditModal = ({ show, handleClose, recipe, onSave }) => {
     // Transform backend ingredient data to form format
     const transformIngredientsFromBackend = (recipeData) => {
         if (!recipeData?.ingredients) return [];
-        return recipeData.ingredients.map(ing => ({
+        return recipeData.ingredients.map((ing, index) => ({
             name: ing.ingredient.name,
             quantity: ing.quantity,
             unit: ing.unit,
             notes: ing.notes || '',
-            // Store the original ingredient ID if it exists
+            order: ing.order || index,
             ingredient_id: ing.ingredient.id
         }));
     };
 
     // Transform form ingredient data to backend format
     const transformIngredientsForBackend = (ingredients) => {
-        return ingredients.map(ing => ({
+        return ingredients.map((ing, index) => ({
             ingredient: {
                 name: ing.name,
                 id: ing.ingredient_id
             },
             quantity: ing.quantity,
             unit: ing.unit,
-            notes: ing.notes || ''
+            notes: ing.notes || '',
+            order: index
         }));
     };
 
@@ -60,7 +108,6 @@ const RecipeEditModal = ({ show, handleClose, recipe, onSave }) => {
                 ingredients: transformIngredientsFromBackend(recipe)
             });
         } else {
-            // Reset form when adding new recipe
             setFormData({
                 name: '',
                 description: '',
@@ -94,7 +141,10 @@ const RecipeEditModal = ({ show, handleClose, recipe, onSave }) => {
         if (newIngredient.name && newIngredient.quantity && newIngredient.unit) {
             setFormData(prev => ({
                 ...prev,
-                ingredients: [...prev.ingredients, { ...newIngredient }]
+                ingredients: [...prev.ingredients, { 
+                    ...newIngredient,
+                    order: prev.ingredients.length
+                }]
             }));
             setNewIngredient({
                 name: '',
@@ -112,16 +162,37 @@ const RecipeEditModal = ({ show, handleClose, recipe, onSave }) => {
         }));
     };
 
+    const moveIngredientUp = (index) => {
+        if (index === 0) return;
+        setFormData(prev => {
+            const ingredients = Array.from(prev.ingredients);
+            [ingredients[index - 1], ingredients[index]] = [ingredients[index], ingredients[index - 1]];
+            return {
+                ...prev,
+                ingredients
+            };
+        });
+    };
+
+    const moveIngredientDown = (index) => {
+        setFormData(prev => {
+            if (index === prev.ingredients.length - 1) return prev;
+            const ingredients = Array.from(prev.ingredients);
+            [ingredients[index], ingredients[index + 1]] = [ingredients[index + 1], ingredients[index]];
+            return {
+                ...prev,
+                ingredients
+            };
+        });
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            // Prepare the data for submission
             const submissionData = {
                 ...formData,
                 ingredients: transformIngredientsForBackend(formData.ingredients)
             };
-
-            console.log('Submitting recipe data:', submissionData);
 
             let savedRecipe;
             if (recipe) {
@@ -133,7 +204,6 @@ const RecipeEditModal = ({ show, handleClose, recipe, onSave }) => {
             handleClose();
         } catch (error) {
             console.error('Error saving recipe:', error);
-            // TODO: Add error handling UI
         }
     };
 
@@ -234,23 +304,13 @@ const RecipeEditModal = ({ show, handleClose, recipe, onSave }) => {
 
                     <div className="mb-3">
                         <h5>Ingredients</h5>
-                        <ListGroup className="mb-3">
-                            {formData.ingredients.map((ingredient, index) => (
-                                <ListGroup.Item key={index} className="d-flex justify-content-between align-items-center">
-                                    <span>
-                                        {ingredient.quantity} {ingredient.unit} {ingredient.name}
-                                        {ingredient.notes && ` (${ingredient.notes})`}
-                                    </span>
-                                    <Button
-                                        variant="outline-danger"
-                                        size="sm"
-                                        onClick={() => removeIngredient(index)}
-                                    >
-                                        Remove
-                                    </Button>
-                                </ListGroup.Item>
-                            ))}
-                        </ListGroup>
+                        <p className="text-muted small">Use the arrows to reorder ingredients</p>
+                        <IngredientList 
+                            ingredients={formData.ingredients}
+                            onRemove={removeIngredient}
+                            onMoveUp={moveIngredientUp}
+                            onMoveDown={moveIngredientDown}
+                        />
 
                         <Row className="g-2">
                             <Col md={3}>
