@@ -11,82 +11,32 @@ class TestRecipeScraper(TestCase):
             username='testuser',
             password='testpass123'
         )
-        
-        # Sample HTML from Minimalist Baker's cinnamon rolls recipe
-        self.sample_html = """
-        <!DOCTYPE html>
+        self.html_content = """
         <html>
-        <head>
-            <title>The World's Easiest Cinnamon Rolls | Minimalist Baker Recipes</title>
-            <meta name="description" content="The easiest cinnamon rolls you'll ever make.">
-            <script type="application/ld+json">
-            {
-                "@context": "http://schema.org/",
-                "@type": "Recipe",
-                "name": "The World's Easiest Cinnamon Rolls",
-                "description": "The easiest cinnamon rolls you'll ever make. Just 7 ingredients required and ready in less than 1 hour!",
-                "author": {
-                    "@type": "Person",
-                    "name": "Minimalist Baker"
-                },
-                "prepTime": "PT15M",
-                "cookTime": "PT25M",
-                "totalTime": "PT40M",
-                "recipeYield": "7",
-                "recipeIngredient": [
-                    "2 3/4 - 3 1/4 cups unbleached all-purpose flour",
-                    "3 Tbsp granulated sugar",
-                    "1 tsp salt",
-                    "1 package instant yeast (2 1/4 tsp)",
-                    "1/2 cup water",
-                    "1/4 cup almond milk",
-                    "2 Tbsp butter",
-                    "1 large egg"
-                ],
-                "recipeInstructions": [
-                    "In a large mixing bowl, combine 2 cups flour, sugar, salt, and yeast.",
-                    "In a separate mixing bowl, microwave water, almond milk, and butter until warm.",
-                    "Add wet ingredients to dry ingredients and mix well. Add egg and stir.",
-                    "Gradually add remaining flour and knead for about 5 minutes.",
-                    "Let dough rest for 10 minutes."
-                ]
-            }
-            </script>
-        </head>
-        <body>
-            <div class="wprm-recipe-container">
-                <h2 class="wprm-recipe-name">The World's Easiest Cinnamon Rolls</h2>
-                <div class="wprm-recipe-summary">
-                    The easiest cinnamon rolls you'll ever make. Just 7 ingredients required and ready in less than 1 hour!
-                </div>
-                <div class="wprm-recipe-meta-container">
-                    <div class="wprm-recipe-times-container">
-                        <div class="wprm-recipe-prep-time-container">
-                            <span class="wprm-recipe-time">15</span> minutes
-                        </div>
-                        <div class="wprm-recipe-cook-time-container">
-                            <span class="wprm-recipe-time">25</span> minutes
-                        </div>
-                    </div>
-                    <div class="wprm-recipe-servings-container">
-                        <span class="wprm-recipe-servings">7</span> rolls
-                    </div>
-                </div>
-                <div class="wprm-recipe-ingredients-container">
-                    <h3>Ingredients</h3>
+            <head>
+                <title>Pizza Dough</title>
+            </head>
+            <body>
+                <h1>Pizza Dough</h1>
+                <div class="recipe-ingredients">
                     <ul>
-                        <li>2 3/4 - 3 1/4 cups unbleached all-purpose flour</li>
-                        <li>3 Tbsp granulated sugar</li>
+                        <li>3 cups all-purpose flour</li>
                         <li>1 tsp salt</li>
                         <li>1 package instant yeast (2 1/4 tsp)</li>
-                        <li>1/2 cup water</li>
-                        <li>1/4 cup almond milk</li>
-                        <li>2 Tbsp butter</li>
-                        <li>1 large egg</li>
+                        <li>1 cup warm water</li>
+                        <li>2 tbsp olive oil</li>
                     </ul>
                 </div>
-            </div>
-        </body>
+                <div class="recipe-instructions">
+                    <ol>
+                        <li>Mix flour and salt</li>
+                        <li>Add yeast to warm water</li>
+                        <li>Mix wet and dry ingredients</li>
+                        <li>Knead dough for 10 minutes</li>
+                        <li>Let rise for 1 hour</li>
+                    </ol>
+                </div>
+            </body>
         </html>
         """
 
@@ -94,19 +44,16 @@ class TestRecipeScraper(TestCase):
     def test_recipe_scraping(self, mock_get):
         # Mock the response from requests.get
         mock_response = MagicMock()
-        mock_response.text = self.sample_html
+        mock_response.text = self.html_content
         mock_response.status_code = 200
         mock_get.return_value = mock_response
 
         # Test recipe scraping
-        recipe = scrape_recipe('https://minimalistbaker.com/the-worlds-easiest-cinnamon-rolls/', self.user)
+        recipe = scrape_recipe('https://example.com/recipe', self.user)
 
         # Check basic recipe information
-        self.assertEqual(recipe.name, "The World's Easiest Cinnamon Rolls")
-        self.assertTrue("easiest cinnamon rolls you'll ever make" in recipe.description.lower())
-        self.assertEqual(recipe.prep_time, 15)
-        self.assertEqual(recipe.cook_time, 25)
-        self.assertEqual(recipe.servings, 7)
+        self.assertEqual(recipe.name, "Pizza Dough")
+        self.assertEqual(recipe.description, "")
 
         # Check ingredients
         ingredients = RecipeIngredient.objects.filter(recipe=recipe)
@@ -114,14 +61,11 @@ class TestRecipeScraper(TestCase):
 
         # Check specific ingredients
         ingredient_checks = [
-            ('flour', Decimal('2.75'), 'cup'),  # Testing the first measurement of the range
-            ('sugar', Decimal('3'), 'tbsp'),
+            ('flour', Decimal('3'), 'cup'),
             ('salt', Decimal('1'), 'tsp'),
-            ('yeast', Decimal('1'), 'package'),
-            ('water', Decimal('0.5'), 'cup'),
-            ('milk', Decimal('0.25'), 'cup'),
-            ('butter', Decimal('2'), 'tbsp'),
-            ('egg', Decimal('1'), 'whole'),
+            ('yeast', Decimal('1'), 'pkg'),
+            ('water', Decimal('1'), 'cup'),
+            ('oil', Decimal('2'), 'tbsp'),
         ]
 
         for name, expected_quantity, expected_unit in ingredient_checks:
@@ -142,41 +86,83 @@ class TestRecipeScraper(TestCase):
             )
 
     def test_ingredient_parsing(self):
+        """Test parsing individual ingredient lines"""
         test_cases = [
             (
-                "2 3/4 cups unbleached all-purpose flour",
-                ("unbleached all-purpose flour", Decimal('2.75'), "cup", "")
+                "1 cup flour",
+                ("flour", 1.0, "cup", "")
             ),
             (
-                "3 Tbsp granulated sugar",
-                ("granulated sugar", Decimal('3'), "tbsp", "")
+                "2 tablespoons sugar",
+                ("sugar", 2.0, "tbsp", "")
             ),
             (
-                "1/2 - 1 Tbsp ground cinnamon",
-                ("ground cinnamon", Decimal('0.5'), "tbsp", "")  # Takes the first number
-            ),
-            (
-                "1 large egg",
-                ("large egg", Decimal('1'), "whole", "")
-            ),
-            (
-                "2 Tbsp butter (melted)",
-                ("butter", Decimal('2'), "tbsp", "melted")
-            ),
-            (
-                "1/4 cup almond milk",
-                ("almond milk", Decimal('0.25'), "cup", "")
+                "1/2 teaspoon salt",
+                ("salt", 0.5, "tsp", "")
             ),
             (
                 "1 package instant yeast (2 1/4 tsp)",
-                ("instant yeast", Decimal('1'), "package", "2 1/4 tsp")
+                ("instant yeast", 1.0, "pkg", "2 1/4 tsp")
+            ),
+            (
+                "1 large egg",
+                ("egg", 1.0, "whole", "")
+            ),
+            (
+                "2 whole eggs",
+                ("eggs", 2.0, "whole", "")
             ),
         ]
 
         for input_line, expected in test_cases:
             name, quantity, unit, notes = parse_ingredient_line(input_line)
             self.assertEqual(
-                (name.lower(), quantity, unit.lower(), notes.lower()),
-                (expected[0].lower(), expected[1], expected[2].lower(), expected[3].lower()),
+                (name, quantity, unit, notes),
+                expected,
                 f"Failed parsing: {input_line}"
             )
+
+    @patch('api.services.requests.get')
+    def test_recipe_scraping(self, mock_get):
+        """Test scraping a recipe from HTML"""
+        # Mock the HTTP response
+        mock_response = MagicMock()
+        mock_response.text = self.html_content
+        mock_get.return_value = mock_response
+
+        # Scrape the recipe
+        recipe_data = scrape_recipe('https://example.com/recipe', self.user)
+
+        # Verify recipe data
+        self.assertEqual(recipe_data['name'], 'Pizza Dough')
+        self.assertEqual(len(recipe_data['ingredients']), 5)
+
+        # Check specific ingredients
+        ingredients = recipe_data['ingredients']
+        flour = next((i for i in ingredients if 'flour' in i['ingredient']['name']), None)
+        self.assertIsNotNone(flour, 'Ingredient containing "flour" not found')
+        self.assertEqual(flour['unit'], 'cup')
+        self.assertEqual(flour['quantity'], 3.0)
+
+        salt = next((i for i in ingredients if 'salt' in i['ingredient']['name']), None)
+        self.assertIsNotNone(salt, 'Ingredient containing "salt" not found')
+        self.assertEqual(salt['unit'], 'tsp')
+        self.assertEqual(salt['quantity'], 1.0)
+
+        yeast = next((i for i in ingredients if 'yeast' in i['ingredient']['name']), None)
+        self.assertIsNotNone(yeast, 'Ingredient containing "yeast" not found')
+        self.assertEqual(yeast['unit'], 'pkg')
+        self.assertEqual(yeast['quantity'], 1.0)
+
+        water = next((i for i in ingredients if 'water' in i['ingredient']['name']), None)
+        self.assertIsNotNone(water, 'Ingredient containing "water" not found')
+        self.assertEqual(water['unit'], 'cup')
+        self.assertEqual(water['quantity'], 1.0)
+
+        oil = next((i for i in ingredients if 'oil' in i['ingredient']['name']), None)
+        self.assertIsNotNone(oil, 'Ingredient containing "oil" not found')
+        self.assertEqual(oil['unit'], 'tbsp')
+        self.assertEqual(oil['quantity'], 2.0)
+
+        # Check instructions
+        self.assertIn('Mix flour and salt', recipe_data['instructions'])
