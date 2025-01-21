@@ -53,10 +53,11 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
     def update(self, request, *args, **kwargs):
         logger.debug(f"Updating recipe with data: {request.data}")
-        ingredients_data = request.data.pop('ingredients', [])
+        data = request.data.copy()  # Create a mutable copy
+        ingredients_data = data.pop('ingredients', [])
         instance = self.get_object()
         
-        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer = self.get_serializer(instance, data=data, partial=True)
         serializer.is_valid(raise_exception=True)
         recipe = serializer.save()
 
