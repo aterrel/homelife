@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import Event, Recipe, Ingredient, RecipeIngredient
+from .models import Event, Recipe, Ingredient, RecipeIngredient, MealPlan, MealSlot
 from django.contrib.auth.password_validation import validate_password
 
 class EventSerializer(serializers.ModelSerializer):
@@ -63,3 +63,17 @@ class RecipeSerializer(serializers.ModelSerializer):
             'ingredients', 'user', 'created_at', 'updated_at'
         ]
         read_only_fields = ['user']
+
+class MealSlotSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MealSlot
+        fields = ['id', 'meal_plan', 'recipe', 'date', 'meal_type', 'notes', 'servings', 'created_at', 'updated_at']
+        read_only_fields = ['created_at', 'updated_at']
+
+class MealPlanSerializer(serializers.ModelSerializer):
+    meal_slots = MealSlotSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = MealPlan
+        fields = ['id', 'user', 'start_date', 'name', 'notes', 'meal_slots', 'created_at', 'updated_at']
+        read_only_fields = ['created_at', 'updated_at', 'user']

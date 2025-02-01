@@ -118,3 +118,42 @@ class RecipeIngredient(models.Model):
 
     def __str__(self):
         return f'{self.recipe.name} - {self.ingredient.name}'
+
+class MealPlan(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='meal_plans')
+    start_date = models.DateField()
+    name = models.CharField(max_length=200, default="Weekly Meal Plan")
+    notes = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.name} - Starting {self.start_date}"
+
+    class Meta:
+        ordering = ['-start_date']
+
+class MealSlot(models.Model):
+    MEAL_TYPE_CHOICES = [
+        ('breakfast', 'Breakfast'),
+        ('lunch', 'Lunch'),
+        ('dinner', 'Dinner'),
+        ('snack', 'Snack'),
+    ]
+
+    meal_plan = models.ForeignKey(MealPlan, on_delete=models.CASCADE, related_name='meal_slots')
+    recipe = models.ForeignKey(Recipe, on_delete=models.SET_NULL, null=True, blank=True)
+    date = models.DateField()
+    meal_type = models.CharField(max_length=20, choices=MEAL_TYPE_CHOICES)
+    notes = models.TextField(blank=True)
+    servings = models.PositiveIntegerField(default=1)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        recipe_name = self.recipe.name if self.recipe else "No recipe"
+        return f"{self.get_meal_type_display()} - {recipe_name} ({self.date})"
+
+    class Meta:
+        ordering = ['date', 'meal_type']
+        unique_together = ['meal_plan', 'date', 'meal_type']

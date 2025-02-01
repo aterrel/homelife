@@ -5,8 +5,8 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from django.contrib.auth.models import User
-from .models import Event, Recipe, Ingredient, RecipeIngredient
-from .serializers import EventSerializer, RecipeSerializer, UserSerializer
+from .models import Event, Recipe, Ingredient, RecipeIngredient, MealPlan, MealSlot
+from .serializers import EventSerializer, RecipeSerializer, UserSerializer, MealPlanSerializer, MealSlotSerializer
 from .services import scrape_recipe
 import requests
 import logging
@@ -113,6 +113,48 @@ class RecipeViewSet(viewsets.ModelViewSet):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+class MealPlanViewSet(viewsets.ModelViewSet):
+    serializer_class = MealPlanSerializer
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+
+    def get_queryset(self):
+        return MealPlan.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+    @action(detail=True, methods=['post'])
+    def bulk_create_slots(self, request, pk=None):
+        meal_plan = self.get_object()
+        slots_data = request.data.get('slots', [])
+        
+        created_slots = []
+        for slot_data in slots_data:
+            slot_data['meal_plan'] = meal_plan.id
+            serializer = MealSlotSerializer(data=slot_data)
+            if serializer.is_valid():
+                slot = serializer.save()
+                created_slots.append(slot)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        return Response(MealSlotSerializer(created_slots, many=True).data, status=status.HTTP_201_CREATED)
+
+class MealSlotViewSet(viewsets.ModelViewSet):
+    serializer_class = MealSlotSerializer
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+
+    def get_queryset(self):
+        return MealSlot.objects.filter(meal_plan__user=self.request.user)
+
+    def perform_create(self, serializer):
+        meal_plan = serializer.validated_data['meal_plan']
+        if meal_plan.user != self.request.user:
+            raise PermissionError("You don't have permission to add slots to this meal plan")
+        serializer.save()
 
 class UserAPIView(generics.CreateAPIView):
     queryset = User.objects.all()
