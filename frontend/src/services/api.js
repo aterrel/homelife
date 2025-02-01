@@ -70,29 +70,75 @@ api.interceptors.response.use(
 
 // Recipe API endpoints
 export const recipeApi = {
-    getAll: () => api.get('/recipes/'),
-    get: (id) => api.get(`/recipes/${id}/`),
-    create: (data) => api.post('/recipes/', data),
-    update: (id, data) => api.put(`/recipes/${id}/`, data),
-    delete: (id) => api.delete(`/recipes/${id}/`),
-    importFromUrl: (url) => api.post('/recipes/import-from-url/', { url })
+    getAll() {
+        return api.get('/recipes/');
+    },
+    get(id) {
+        return api.get(`/recipes/${id}/`);
+    },
+    create(data) {
+        return api.post('/recipes/', data);
+    },
+    update(id, data) {
+        return api.put(`/recipes/${id}/`, data);
+    },
+    delete(id) {
+        return api.delete(`/recipes/${id}/`);
+    },
+    importFromUrl(url) {
+        return api.post('/recipes/import/', { url });
+    }
 };
 
 // Event API endpoints
 export const eventApi = {
-    getAll: () => api.get('/events/'),
-    get: (id) => api.get(`/events/${id}/`),
-    create: (data) => api.post('/events/', data),
-    update: (id, data) => api.put(`/events/${id}/`, data),
-    delete: (id) => api.delete(`/events/${id}/`)
+    getAll() {
+        return api.get('/events/');
+    },
+    get(id) {
+        return api.get(`/events/${id}/`);
+    },
+    create(data) {
+        return api.post('/events/', data);
+    },
+    update(id, data) {
+        return api.put(`/events/${id}/`, data);
+    },
+    delete(id) {
+        return api.delete(`/events/${id}/`);
+    }
+};
+
+// Meal Plan API endpoints
+export const mealPlanApi = {
+    getAll() {
+        return api.get('/meal-plans/');
+    },
+    get(id) {
+        return api.get(`/meal-plans/${id}/`);
+    },
+    create(data) {
+        return api.post('/meal-plans/', data);
+    },
+    update(id, data) {
+        return api.put(`/meal-plans/${id}/`, data);
+    },
+    delete(id) {
+        return api.delete(`/meal-plans/${id}/`);
+    },
+    createSlots(planId, slots) {
+        return api.post(`/meal-plans/${planId}/bulk_create_slots/`, { slots });
+    }
 };
 
 // Auth API endpoints
 export const authApi = {
-    login: (username, password) => 
-        axios.post(`${config.baseURL}/token/`, { username, password }),
-    refresh: (refresh_token) => 
-        axios.post(`${config.baseURL}/token/refresh/`, { refresh: refresh_token }),
+    login(username, password) {
+        return api.post('/token/', { username, password });
+    },
+    refresh(refresh_token) {
+        return api.post('/token/refresh/', { refresh: refresh_token });
+    }
 };
 
 export default api;

@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { Card, Button } from 'react-bootstrap';
+import { Card, Button, ButtonGroup } from 'react-bootstrap';
 
 import EventModal from './EventModal';
 import LoginModal from './LoginModal';
-import { eventApi } from '../services/api';
+import MealPlanModal from './MealPlanModal';
+import { eventApi, mealPlanApi } from '../services/api';
 
 // Set up the localizer for the calendar using Moment.js
 const localizer = momentLocalizer(moment);
@@ -15,6 +16,7 @@ const MyCalendar = ({ isLoggedIn, onLogin }) => {
     const [events, setEvents] = useState([]);
     const [selectedEvent, setSelectedEvent] = useState(null);
     const [showEventModal, setShowEventModal] = useState(false);
+    const [showMealPlanModal, setShowMealPlanModal] = useState(false);
     const [showLoginModal, setShowLoginModal] = useState(false);
 
     // Fetch events from the backend API
@@ -91,13 +93,20 @@ const MyCalendar = ({ isLoggedIn, onLogin }) => {
     return (
         <div style={{ margin: '20px' }}>
             <h2>Family Calendar</h2>
-            <Button 
-                variant="primary" 
-                className="mb-3"
-                onClick={() => setShowEventModal(true)}
-            >
-                Add Event
-            </Button>
+            <ButtonGroup className="mb-3">
+                <Button 
+                    variant="primary" 
+                    onClick={() => setShowEventModal(true)}
+                >
+                    Add Event
+                </Button>
+                <Button 
+                    variant="success" 
+                    onClick={() => setShowMealPlanModal(true)}
+                >
+                    Create Meal Plan
+                </Button>
+            </ButtonGroup>
             <Calendar
                 localizer={localizer}
                 events={events}
@@ -108,12 +117,21 @@ const MyCalendar = ({ isLoggedIn, onLogin }) => {
             />
             <EventModal
                 show={showEventModal}
-                onHide={() => {
-                    setShowEventModal(false);
-                    setSelectedEvent(null);
-                }}
+                onHide={() => setShowEventModal(false)}
                 event={selectedEvent}
                 onEventAdded={handleEventAdded}
+                onEventUpdated={handleEventAdded}
+                onEventDeleted={handleEventAdded}
+            />
+            <MealPlanModal
+                show={showMealPlanModal}
+                onHide={() => setShowMealPlanModal(false)}
+                onMealPlanAdded={handleEventAdded}
+            />
+            <LoginModal
+                show={showLoginModal}
+                onHide={() => setShowLoginModal(false)}
+                onLogin={handleLogin}
             />
         </div>
     );
