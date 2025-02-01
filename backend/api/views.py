@@ -115,6 +115,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 class MealPlanViewSet(viewsets.ModelViewSet):
+    queryset = MealPlan.objects.all()
     serializer_class = MealPlanSerializer
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication]
@@ -143,6 +144,7 @@ class MealPlanViewSet(viewsets.ModelViewSet):
         return Response(MealSlotSerializer(created_slots, many=True).data, status=status.HTTP_201_CREATED)
 
 class MealSlotViewSet(viewsets.ModelViewSet):
+    queryset = MealSlot.objects.all()
     serializer_class = MealSlotSerializer
     permission_classes = [IsAuthenticated]
     authentication_classes = [JWTAuthentication]
