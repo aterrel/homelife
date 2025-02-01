@@ -134,6 +134,13 @@ class MealPlan(models.Model):
         ordering = ['-start_date']
 
 class MealSlot(models.Model):
+    MEAL_TYPE_ORDER = {
+        'breakfast': 1,
+        'lunch': 2,
+        'dinner': 3,
+        'snack': 4
+    }
+    
     MEAL_TYPE_CHOICES = [
         ('breakfast', 'Breakfast'),
         ('lunch', 'Lunch'),
@@ -145,15 +152,20 @@ class MealSlot(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.SET_NULL, null=True, blank=True)
     date = models.DateField()
     meal_type = models.CharField(max_length=20, choices=MEAL_TYPE_CHOICES)
+    meal_type_order = models.IntegerField(editable=False)
     notes = models.TextField(blank=True)
     servings = models.PositiveIntegerField(default=1)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        self.meal_type_order = self.MEAL_TYPE_ORDER.get(self.meal_type, 5)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         recipe_name = self.recipe.name if self.recipe else "No recipe"
         return f"{self.get_meal_type_display()} - {recipe_name} ({self.date})"
 
     class Meta:
-        ordering = ['date', 'meal_type']
+        ordering = ['date', 'meal_type_order']
         unique_together = ['meal_plan', 'date', 'meal_type']
