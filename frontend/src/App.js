@@ -5,6 +5,7 @@ import './App.css';
 import Navbar from './components/Navbar';
 import MyCalendar from './components/Calendar';
 import RecipeList from './components/RecipeList';
+import Meals from './pages/Meals';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -56,17 +57,31 @@ function App() {
             <Route 
               path="/events" 
               element={
-                <Navigate to="/" replace />
-              }
+                <MyCalendar 
+                  isLoggedIn={isLoggedIn}
+                  onLogin={handleLogin}
+                />
+              } 
             />
             <Route 
               path="/recipes" 
               element={
                 <RecipeList 
                   isLoggedIn={isLoggedIn}
+                  onLogin={handleLogin}
                 />
-              }
+              } 
             />
+            <Route 
+              path="/meals" 
+              element={
+                <Meals 
+                  isLoggedIn={isLoggedIn}
+                  onLogin={handleLogin}
+                />
+              } 
+            />
+            <Route path="*" element={<Navigate to="/" />} />
           </Routes>
         </main>
       </div>

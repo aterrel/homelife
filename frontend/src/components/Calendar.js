@@ -2,23 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { Card, Button, ButtonGroup, Container, Row, Col } from 'react-bootstrap';
+import { Card, Button } from 'react-bootstrap';
 
 import EventModal from './EventModal';
 import LoginModal from './LoginModal';
-import MealPlanModal from './MealPlanModal';
-import MealPlanView from './MealPlanView';
-import { eventApi, mealPlanApi } from '../services/api';
+import { eventApi } from '../services/api';
 
 // Set up the localizer for the calendar using Moment.js
 const localizer = momentLocalizer(moment);
 
 const MyCalendar = ({ isLoggedIn, onLogin }) => {
     const [events, setEvents] = useState([]);
-    const [mealPlans, setMealPlans] = useState([]);
     const [selectedEvent, setSelectedEvent] = useState(null);
     const [showEventModal, setShowEventModal] = useState(false);
-    const [showMealPlanModal, setShowMealPlanModal] = useState(false);
     const [showLoginModal, setShowLoginModal] = useState(false);
 
     // Fetch events from the backend API
@@ -42,27 +38,12 @@ const MyCalendar = ({ isLoggedIn, onLogin }) => {
         }
     };
 
-    // Fetch meal plans from the backend API
-    const fetchMealPlans = async () => {
-        try {
-            const response = await mealPlanApi.getAll();
-            setMealPlans(response.data);
-        } catch (error) {
-            console.error('Error fetching meal plans:', error);
-            if (error.response?.status === 401) {
-                setMealPlans([]);
-            }
-        }
-    };
-
     // Fetch events when logged in status changes
     useEffect(() => {
         if (isLoggedIn) {
             fetchEvents();
-            fetchMealPlans();
         } else {
             setEvents([]);
-            setMealPlans([]);
         }
     }, [isLoggedIn]);
 
@@ -77,10 +58,6 @@ const MyCalendar = ({ isLoggedIn, onLogin }) => {
 
     const handleEventAdded = () => {
         fetchEvents();
-    };
-
-    const handleMealPlanAdded = () => {
-        fetchMealPlans();
     };
 
     const handleLogin = (userData) => {
@@ -112,47 +89,23 @@ const MyCalendar = ({ isLoggedIn, onLogin }) => {
     }
 
     return (
-        <Container fluid>
-            <Row>
-                <Col md={8}>
-                    <div style={{ margin: '20px' }}>
-                        <h2>Family Calendar</h2>
-                        <ButtonGroup className="mb-3">
-                            <Button 
-                                variant="primary" 
-                                onClick={() => setShowEventModal(true)}
-                            >
-                                Add Event
-                            </Button>
-                            <Button 
-                                variant="success" 
-                                onClick={() => setShowMealPlanModal(true)}
-                            >
-                                Create Meal Plan
-                            </Button>
-                        </ButtonGroup>
-                        <Calendar
-                            localizer={localizer}
-                            events={events}
-                            startAccessor="start"
-                            endAccessor="end"
-                            style={{ height: 500 }}
-                            onSelectEvent={handleEventClick}
-                        />
-                    </div>
-                </Col>
-                <Col md={4}>
-                    <div style={{ margin: '20px' }}>
-                        <h3>Meal Plans</h3>
-                        {mealPlans.map(mealPlan => (
-                            <MealPlanView 
-                                key={mealPlan.id} 
-                                mealPlan={mealPlan}
-                            />
-                        ))}
-                    </div>
-                </Col>
-            </Row>
+        <div style={{ margin: '20px' }}>
+            <h2>Family Calendar</h2>
+            <Button 
+                variant="primary" 
+                className="mb-3"
+                onClick={() => setShowEventModal(true)}
+            >
+                Add Event
+            </Button>
+            <Calendar
+                localizer={localizer}
+                events={events}
+                startAccessor="start"
+                endAccessor="end"
+                style={{ height: 500 }}
+                onSelectEvent={handleEventClick}
+            />
             <EventModal
                 show={showEventModal}
                 onHide={() => setShowEventModal(false)}
@@ -161,17 +114,12 @@ const MyCalendar = ({ isLoggedIn, onLogin }) => {
                 onEventUpdated={handleEventAdded}
                 onEventDeleted={handleEventAdded}
             />
-            <MealPlanModal
-                show={showMealPlanModal}
-                onHide={() => setShowMealPlanModal(false)}
-                onMealPlanAdded={handleMealPlanAdded}
-            />
             <LoginModal
                 show={showLoginModal}
                 onHide={() => setShowLoginModal(false)}
                 onLogin={handleLogin}
             />
-        </Container>
+        </div>
     );
 };
 
