@@ -128,6 +128,18 @@ export const mealPlanApi = {
     },
     createSlots(planId, slots) {
         return api.post(`/meal-plans/${planId}/bulk_create_slots/`, { slots });
+    },
+    getAllSlots() {
+        return api.get('/meal-slots/');
+    },
+    getSlot(id) {
+        return api.get(`/meal-slots/${id}/`);
+    },
+    updateSlot(id, data) {
+        return api.put(`/meal-slots/${id}/`, data);
+    },
+    deleteSlot(id) {
+        return api.delete(`/meal-slots/${id}/`);
     }
 };
 
