@@ -19,7 +19,7 @@ const Navbar = ({ isLoggedIn, username, onLogin, onLogout }) => {
           <BootstrapNavbar.Toggle aria-controls="basic-navbar-nav" />
           <BootstrapNavbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link as={Link} to="/events">Events</Nav.Link>
+              <Nav.Link as={Link} to="/events">Calendar</Nav.Link>
               <Nav.Link as={Link} to="/recipes">Recipes</Nav.Link>
               <Nav.Link as={Link} to="/meals">Meals</Nav.Link>
             </Nav>
