@@ -158,6 +158,25 @@ class MealSlotViewSet(viewsets.ModelViewSet):
             raise PermissionError("You don't have permission to add slots to this meal plan")
         serializer.save()
 
+    def perform_update(self, serializer):
+        meal_plan = serializer.validated_data.get('meal_plan')
+        if meal_plan and meal_plan.user != self.request.user:
+            raise PermissionError("You don't have permission to modify slots in this meal plan")
+        serializer.save()
+
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        
+        # If meal_plan is not provided, use the existing one
+        if 'meal_plan' not in request.data:
+            request.data['meal_plan'] = instance.meal_plan.id
+            
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+
 class UserAPIView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
