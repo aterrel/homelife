@@ -45,7 +45,16 @@ const MealPlanModal = ({ show, onHide, onMealPlanAdded }) => {
             });
             
             if (slots.length > 0) {
-                await mealPlanApi.createSlots(response.data.id, slots);
+                // Format slots data for the API
+                const formattedSlots = slots.map(slot => ({
+                    recipe: slot.recipe.id,
+                    date: slot.date,
+                    meal_type: slot.meal_type,
+                    servings: slot.servings,
+                    notes: slot.notes
+                }));
+                
+                await mealPlanApi.createSlots(response.data.id, formattedSlots);
             }
             
             onMealPlanAdded();
