@@ -1,6 +1,7 @@
 import datetime
 import requests
 from recipe_scrapers import scrape_html
+from recipe_scrapers._exceptions import RecipeScrapersExceptions
 
 import django
 import os
@@ -21,15 +22,84 @@ UNIT_CHOICES = [
     'cup', 'tbsp', 'tsp', 'oz', 'lb', 'g', 'kg', 'ml', 'l', 'pinch', 'piece', 'whole', 'pkg', 'slice'
 ]
 
-# Helper function to parse quantity and units
-def parse_quantity_and_units(ingredient_text):
-    pattern = r'(\d+\/?\d*)?\s*(%s)?' % '|'.join(UNIT_CHOICES)
-    match = re.match(pattern, ingredient_text, re.IGNORECASE)
-    if match:
-        quantity = match.group(1) if match.group(1) else 1
-        units = match.group(2) if match.group(2) else 'piece'
-        return quantity, units
-    return 1, 'piece'
+UNIT_MAPPING = {
+    'cup': 'cup',
+    'cups': 'cup',
+    'tablespoon': 'tbsp',
+    'tablespoons': 'tbsp',
+    'tbsp': 'tbsp',
+    'teaspoon': 'tsp',
+    'teaspoons': 'tsp',
+    'tsp': 'tsp',
+    'ounce': 'oz',
+    'ounces': 'oz',
+    'oz': 'oz',
+    'pound': 'lb',
+    'pounds': 'lb',
+    'lb': 'lb',
+    'gram': 'g',
+    'grams': 'g',
+    'g': 'g',
+    'kilogram': 'kg',
+    'kilograms': 'kg',
+    'kg': 'kg',
+    'milliliter': 'ml',
+    'milliliters': 'ml',
+    'ml': 'ml',
+    'liter': 'l',
+    'liters': 'l',
+    'l': 'l',
+    'pinch': 'pinch',
+    'piece': 'piece',
+    'pieces': 'piece',
+    'slice': 'slice',
+    'slices': 'slice',
+    'whole': 'whole',
+    'package': 'pkg', 'packages': 'pkg', 'pkg': 'pkg',
+}
+
+
+def parse_quantity_and_units(text):
+    """Extract quantity and unit from ingredient text."""
+    # Common fraction patterns
+    fraction_pattern = '\d+/\d+|\d+\s+\d+/\d+'
+    # Unit pattern based on UNIT_MAPPING
+    unit_pattern = '|'.join(UNIT_MAPPING.keys())
+    
+    # Match patterns like "2", "1/2", "2 1/2" followed by optional unit
+    pattern = f'^({fraction_pattern})\s*({unit_pattern})?\s+(.+)$'
+    match = re.match(pattern, text, re.IGNORECASE)
+    
+    if not match:
+        # If no match, try to find just a number at the start
+        number_match = re.match(r'^(\d+)\s+(.+)$', text)
+        if number_match:
+            return float(number_match.group(1)), 'piece', number_match.group(2)
+        return 1, 'whole', text
+
+    quantity_str, unit, ingredient = match.groups()
+    
+    # Convert fraction to decimal
+    if '/' in quantity_str:
+        if ' ' in quantity_str:
+            whole, frac = quantity_str.split()
+            num, denom = map(int, frac.split('/'))
+            quantity = float(whole) + num/denom
+        else:
+            num, denom = map(int, quantity_str.split('/'))
+            quantity = num/denom
+    else:
+        quantity = float(quantity_str)
+
+    # Map unit to standard form
+    if unit:
+        unit = UNIT_MAPPING.get(unit.lower(), 'piece')
+    else:
+        unit = 'piece'
+
+    return quantity, unit, ingredient.strip()
+
+
 
 def parse_duration(minutes):
     duration = datetime.timedelta(minutes=minutes)
@@ -57,13 +127,11 @@ def scrape_recipe_data(url):
 
     # Extract ingredients
     ingredients = []
-    ingredients_list = soup.find_all('span', class_='ingredients-item-name')
+    ingredients_list = scraper.ingredients() 
     for order, ingredient_text in enumerate(ingredients_list, start=1):
-        full_ingredient_text = ingredient_text.get_text(strip=True)
-        quantity, units = parse_quantity_and_units(full_ingredient_text)
+        full_ingredient_text = ingredient_text.strip()
+        quantity, units, ingredient_name = parse_quantity_and_units(full_ingredient_text)
 
-        ingredient_name = re.sub(r'^\d+\/?\d*\s*(%s)?\s*' % '|'.join(UNIT_CHOICES), '', full_ingredient_text, flags=re.IGNORECASE).strip()
-        
         ingredients.append({
             'name': ingredient_name,
             'quantity': quantity,
@@ -96,7 +164,7 @@ def create_recipe_in_db(recipe_data):
         instructions=recipe_data['instructions'],
         url=recipe_data['url']
     )
-
+    
     for ingredient_data in recipe_data['ingredients']:
         ingredient, created = Ingredient.objects.get_or_create(name=ingredient_data['name'])
         RecipeIngredient.objects.create(
@@ -157,5 +225,5 @@ for url in get_recipe_urls(start_url, num_recipes=100):
   try:
     recipe_data = scrape_recipe_data(url)
     create_recipe_in_db(recipe_data)
-  except Exception as e:
+  except RecipeScrapersExceptions as e:
     print(f'Error scraping recipe {url}: {e}')

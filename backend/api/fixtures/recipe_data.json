@@ -1,109 +1,818 @@
 [
-    {
-        "model": "api.recipe",
-        "pk": 1,
-        "fields": {
-            "name": "Classic Pancakes",
-            "description": "Light and fluffy pancakes perfect for breakfast",
-            "instructions": "1. Mix dry ingredients in a bowl\n2. Whisk wet ingredients in another bowl\n3. Combine wet and dry ingredients until just mixed\n4. Heat griddle to medium\n5. Pour 1/4 cup batter for each pancake\n6. Cook until bubbles form\n7. Flip and cook other side\n8. Serve with maple syrup",
-            "prep_time": 10,
-            "cook_time": 15,
-            "servings": 4,
-            "difficulty": "easy",
-            "user": 1,
-            "created_at": "2025-01-20T06:24:22-06:00",
-            "updated_at": "2025-01-20T06:24:22-06:00"
-        }
-    },
-    {
-        "model": "api.recipeingredient",
-        "pk": 1,
-        "fields": {
-            "recipe": 1,
-            "ingredient": 1,
-            "quantity": 1.5,
-            "unit": "cup",
-            "optional": false,
-            "notes": "sifted",
-            "order": 0
-        }
-    },
-    {
-        "model": "api.recipeingredient",
-        "pk": 2,
-        "fields": {
-            "recipe": 1,
-            "ingredient": 8,
-            "quantity": 3.5,
-            "unit": "tsp",
-            "optional": false,
-            "notes": "",
-            "order": 1
-        }
-    },
-    {
-        "model": "api.recipeingredient",
-        "pk": 3,
-        "fields": {
-            "recipe": 1,
-            "ingredient": 3,
-            "quantity": 0.25,
-            "unit": "tsp",
-            "optional": false,
-            "notes": "",
-            "order": 2
-        }
-    },
-    {
-        "model": "api.recipeingredient",
-        "pk": 4,
-        "fields": {
-            "recipe": 1,
-            "ingredient": 2,
-            "quantity": 1,
-            "unit": "tbsp",
-            "optional": false,
-            "notes": "",
-            "order": 3
-        }
-    },
-    {
-        "model": "api.recipeingredient",
-        "pk": 5,
-        "fields": {
-            "recipe": 1,
-            "ingredient": 6,
-            "quantity": 1.25,
-            "unit": "cup",
-            "optional": false,
-            "notes": "room temperature",
-            "order": 4
-        }
-    },
-    {
-        "model": "api.recipeingredient",
-        "pk": 6,
-        "fields": {
-            "recipe": 1,
-            "ingredient": 5,
-            "quantity": 1,
-            "unit": "whole",
-            "optional": false,
-            "notes": "large",
-            "order": 5
-        }
-    },
-    {
-        "model": "api.recipeingredient",
-        "pk": 7,
-        "fields": {
-            "recipe": 1,
-            "ingredient": 4,
-            "quantity": 3,
-            "unit": "tbsp",
-            "optional": false,
-            "notes": "melted",
-            "order": 6
-        }
+{
+    "model": "api.recipe",
+    "pk": 1,
+    "fields": {
+        "name": "Southwestern Pulled Pork Sliders",
+        "prep_time": "00:20:00",
+        "cook_time": "00:10:00",
+        "servings": 12,
+        "instructions": "For slaw, combine mayonnaise, chipotle peppers, adobo sauce, salt, and cilantro in the bowl of a blender or food processor. Pulse 4 or 5 times, scrape down the sides of the bowl, replace the lid, and puree until smooth. Toss with slaw mix and set aside.\nPreheat the oven to 400 degrees F (200 degrees C) and line a sheet pan with foil.\nFor pork, in a microwave-safe bowl, combine lime juice, honey, tomato paste, cumin, smoked paprika, cayenne, pepper, coriander and garlic. Stir to combine. Add shredded pork and stir well. Heat on 50% power until warm, 2 to 3 minutes.\nMeanwhile, place open buns on the prepared pan. Add a slice of smoked Gouda to the bottom half of each bun; trim any overhang, and add as a second layer of cheese.\nBake buns in the preheated oven until cheese has begun to melt, 3 to 5 minutes.\nRemove from the oven and place 2 tablespoons pork mixture on top of cheese. Add slaw to taste on each slider, and cover with top half of bun. Serve immediately.",
+        "url": "https://www.allrecipes.com/southwestern-pulled-pork-sliders-recipe-8786436",
+        "added_by": null,
+        "is_shared_globally": false,
+        "categories": [],
+        "tags": []
     }
+},
+{
+    "model": "api.recipe",
+    "pk": 2,
+    "fields": {
+        "name": "Wet Wet Wings",
+        "prep_time": "00:15:00",
+        "cook_time": "00:25:00",
+        "servings": 6,
+        "instructions": "Toss wings in a bowl with oil, salt, and pepper. Transfer to the air fryer basket.\nAir fry the wings at 400 degrees F (200 degrees C) until cooked through and crisp, 20 to 25 minutes.\nWhile wings cook, prepare the wet wet sauce and set aside.\nPour wet wet sauce over wings and toss to until well coated with sauce. Sprinkle with green onions and sesame seeds if desired.",
+        "url": "https://www.allrecipes.com/wet-wet-wings-recipe-8786824",
+        "added_by": null,
+        "is_shared_globally": false,
+        "categories": [],
+        "tags": []
+    }
+},
+{
+    "model": "api.recipe",
+    "pk": 3,
+    "fields": {
+        "name": "Creamy Chicken Sausage Orzo Skillet",
+        "prep_time": "00:15:00",
+        "cook_time": "00:20:00",
+        "servings": 2,
+        "instructions": "Heat a heavy bottom pot over medium-low heat and drizzle in oil. Fry chicken sausage rounds until browned and cooked through, about 5 minutes. Add garlic and cook for 1 minute.\nAdd orzo and cook and stir until lightly golden brown, about 1 minute. Pour in chicken broth and 1/2 cup cream. Stir in salt, pepper, garlic powder, onion powder, and chili flakes.\nBring mixture to a boil, then cover and reduce heat to a simmer. Simmer until orzo is very tender, about 10 minutes. Check occasionally; add additional cream as needed if orzo becomes too dry before it is tender.\nLower heat to low, then stir in basil and Parmesan until fully incorporated. Serve and enjoy!",
+        "url": "https://www.allrecipes.com/creamy-chicken-sausage-orzo-skillet-recipe-8782007",
+        "added_by": null,
+        "is_shared_globally": false,
+        "categories": [],
+        "tags": []
+    }
+},
+{
+    "model": "api.recipe",
+    "pk": 4,
+    "fields": {
+        "name": "Smoked Bologna",
+        "prep_time": "00:10:00",
+        "cook_time": "03:00:00",
+        "servings": 12,
+        "instructions": "Prepare an outdoor smoker to 250 degrees F (121 degrees C) using your choice of wood. I prefer oak or hickory but cherry works well, too.\nScore the bologna chub in a crosshatch pattern with a sharp knife 1/2-inch deep and 1-inch apart around the entire chub. Sprinkle with rub, and massage rub into all of the scores. Place chub directly on the smoker grate.\nSmoke in the preheated smoker for 3 hours. Transfer to a cutting board and let rest for 30 minutes.\nSlice and serve on sandwiches. Or, slice and pan fry for fried bologna sandwiches.",
+        "url": "https://www.allrecipes.com/smoked-bologna-recipe-8786384",
+        "added_by": null,
+        "is_shared_globally": false,
+        "categories": [],
+        "tags": []
+    }
+},
+{
+    "model": "api.recipe",
+    "pk": 5,
+    "fields": {
+        "name": "Meatball Subs on a Stick",
+        "prep_time": "00:20:00",
+        "cook_time": "00:20:00",
+        "servings": 9,
+        "instructions": "Gather all ingredients. Preheat the oven to 375 degrees F (190 degrees C). Place skewers in water to soak. Line a sheet pan with parchment paper.\nFor meatballs, combine beef, egg, bread crumbs, Parmesan cheese, onion, garlic paste, salt, oregano, parsley, basil, and chili flakes in a large bowl until evenly mixed.\nWeigh out 1.13 ounces of mixture and form it around 1 mozzarella cube. Roll in hands to ensure a tight seal. Place meatball on prepared pan; repeat with remaining mozzarella and meatball mixture to make 24 balls.\nOn a lightly floured cutting board or other work surface, roll out pizza dough. Slice into 12 even strips.\nPlace 2 meatballs on the work surface and coil 1 strip around them, alternating sides to form an S. Use finger tips to hold down the first meatball and gently insert the skewer through it and the dough, twisting the skewer slightly until it comes out the other end.\nIn a separate bowl, combine melted butter, garlic and parsley. Using a pastry brush, brush the butter mixture over dough.\nBake in the preheated oven until golden brown, 20 to 25 minutes. Serve with warmed marinara sauce.",
+        "url": "https://www.allrecipes.com/meatball-subs-on-a-stick-recipe-8780157",
+        "added_by": null,
+        "is_shared_globally": false,
+        "categories": [],
+        "tags": []
+    }
+},
+{
+    "model": "api.recipe",
+    "pk": 6,
+    "fields": {
+        "name": "Sticky Toffee Pudding Thumbprints",
+        "prep_time": "00:50:00",
+        "cook_time": "00:30:00",
+        "servings": 44,
+        "instructions": "Place dates in a small heatproof bowl. Pour in enough boiling water to cover, then stir in baking soda, and soak dates for 10 minutes.\nMeanwhile, place 1 cup butter in a light colored saucepan over medium-low heat. Cook, stirring constantly, until butter is browned, 5 to 10 minutes. Pour browned butter into a large mixing bowl and allow to cool for 10 minutes.\nDrain dates; add to a food processor or blender, and pulse until mixture is thick and paste-like, with few large chunks of date remaining.\nTo the browned butter, add brown sugar, molasses, vanilla, espresso powder, salt, nutmeg, cloves, and allspice; stir to combine. Add in egg and stir until well incorporated, about 1 minute. Add in dates, and stir until thoroughly combined. Add in 1 1/2 cups flour, cornstarch, and baking powder and mix until just combined. Add in remaining 1 cup flour and stir until just incorporated.\nPour 1/2 cup white sugar in a small bowl.\nScoop out 1 tablespoon dough and roll into a ball; roll in sugar until completely coated. Dough will still be so somewhat soft, but should still roll into a ball. Using your thumb, or the handle of a wooden spoon, spatula, or small whisk, make an indentation in the center, about 1/2-inch wide. Place cookies on a plate. Repeat this process with remaining dough. Refrigerate until chilled, at least 30 minutes.\nPreheat the oven to 350 degrees F (180 degrees C). Line baking sheets with silicone baking mats or parchment paper. Arrange chilled cookies 1 inch apart on prepared baking sheets.\nBake until cookies begin to puff, and small cracks begin to appear, 12 to 14 minutes. Remove cookies from oven, and immediately use the handle of a wooden spoon or spatula to press the center of cookies back down. Cool cookies on the baking sheet for 5 minutes, then remove to a wire rack to cool completely.\nFor toffee sauce, place brown sugar, butter, water, molasses, and salt in a heavy-bottomed sauce pot over medium-low heat. Cook, stirring constantly, until mixture is boiling. Reduce heat to low and boil for 2 minutes, stirring constantly. Carefully pour in cream (mixture will sputter), while continuing to stir. Return to a boil, and cook for 5 minutes, stirring constantly. Remove from heat; stir in vanilla and lemon juice. Pour into a heatproof glass measuring cup with a pour spout. Allow toffee sauce to cool until slightly thickened, stirring occasionally, 15 to 20 minutes.\nCarefully pour toffee sauce into center of each cookie, taking care to not overfill. Alternatively, you can spoon the sauce into the cookies instead of pouring from a measuring cup. Toffee sauce will thicken as it cools. Store cookies in a single layer in an airtight container.",
+        "url": "https://www.allrecipes.com/sticky-toffee-pudding-thumbprints-recipe-8781774",
+        "added_by": null,
+        "is_shared_globally": false,
+        "categories": [],
+        "tags": []
+    }
+},
+{
+    "model": "api.recipe",
+    "pk": 7,
+    "fields": {
+        "name": "Baked Butter Beans",
+        "prep_time": "00:15:00",
+        "cook_time": "00:30:00",
+        "servings": 8,
+        "instructions": "Preheat the oven to 350 degrees F (180 degrees C).\nPlace sausage, bell pepper, and onion in a large skillet over medium-high heat. Cook and stir until sausage is browned, about 5 minutes.\nWhisk ketchup, steak sauce, liquid smoke, ground mustard, and celery seed in a large mixing bowl. Add sausage mixture and stir to combine. Add drained butter beans and gently stir until evenly combined. Pour into a baking dish; cover.\nBake in the preheated oven until hot and bubbly, about 25 minutes.",
+        "url": "https://www.allrecipes.com/baked-butter-beans-recipe-8782057",
+        "added_by": null,
+        "is_shared_globally": false,
+        "categories": [],
+        "tags": []
+    }
+},
+{
+    "model": "api.recipe",
+    "pk": 8,
+    "fields": {
+        "name": "6-Ingredient Ravioli Casserole",
+        "prep_time": "00:05:00",
+        "cook_time": "00:35:00",
+        "servings": 6,
+        "instructions": "Preheat the oven to 400 degrees F (200 degrees C).\nCrumble sausage into a large skillet over medium-high heat. Cook until browned, about 3 minutes. Drain.\nMeanwhile, bring water to a boil in a large saucepan. Boil ravioli for 2 minutes; drain.\nSpread drained sausage in the bottom of a 3-quart casserole dish. Top with ravioli.\nLayer spinach over ravioli. Pour vodka sauce evenly over spinach. Spoon pesto evenly over the top. Top with shredded mozzarella cheese.\nBake in the preheated oven until cheese is melted and ravioli is heated through, about 35 minutes. Let stand for 5 minutes before serving.",
+        "url": "https://www.allrecipes.com/6-ingredient-ravioli-casserole-recipe-8782378",
+        "added_by": null,
+        "is_shared_globally": false,
+        "categories": [],
+        "tags": []
+    }
+},
+{
+    "model": "api.recipe",
+    "pk": 9,
+    "fields": {
+        "name": "Harissa Butternut Squash Soup",
+        "prep_time": "00:20:00",
+        "cook_time": "00:35:00",
+        "servings": 6,
+        "instructions": "Preheat the oven to 400 degrees F (200 degrees C). Line a baking sheet with parchment paper. Toss butternut squash, onion, and whole garlic with olive oil. Spread out on the prepared baking sheet.\nRoast in the preheated oven until tender and slightly caramelized, 25 to 30 minutes.\nPlace cooked vegetables into the jar of a blender. If ingredients are hot, fill blender no more than halfway full, and hold lid down with a potholder. You may have to work in batches. Add broth, harissa paste, cumin, smoked paprika, and brown sugar. Blend until smooth\nPour blender contents into a stockpot. Bring to a boil, then reduce heat to a simmer. Cook for 10 minutes to allow the flavors to meld. Stir in heavy cream and season with salt and pepper. Ladle into bowls and serve with a swirl of heavy cream, if desired.",
+        "url": "https://www.allrecipes.com/harissa-butternut-squash-soup-recipe-8781939",
+        "added_by": null,
+        "is_shared_globally": false,
+        "categories": [],
+        "tags": []
+    }
+},
+{
+    "model": "api.recipe",
+    "pk": 10,
+    "fields": {
+        "name": "Lemon Crumb Bars",
+        "prep_time": "00:15:00",
+        "cook_time": "00:45:00",
+        "servings": 16,
+        "instructions": "Preheat the oven to 350 degrees F (180 degrees C). Line a 9x9-inch square pan with enough parchment paper to have overhang on all sides.\nFor crust and crumb, stir together melted butter, white sugar, brown sugar, salt, and vanilla until thoroughly combined. Add in flour and baking powder and mix until mixture comes together in large clumps. Measure out a loosely-packed 1 3/4 cups crumbs and press firmly and evenly into the bottom of prepared pan. Reserve remaining crumb mixture for topping.\nBreak an egg into a large bowl and whisk for a few seconds. Lightly brush a thin layer of egg over the crust; you will use any egg left in the filling. Place crust into the freezer for about 10 to 15 minutes while you prepare filling.\nFor filling, to the egg you used as egg wash, add the remaining 2 eggs, 1 cup plus 2 tablespoons sugar, cornstarch, lemon zest, and pinch salt. Whisk until completely smooth and combined. Whisk in the 3 tablespoons melted butter until incorporated. Pour in lemon juice and whisk until combined.\nRemove crust from freezer and pour the filling evenly over the top.\nBake bars in the preheated oven for 25 minutes.\nRemove pan from oven and sprinkle reserved crumb topping evenly over the top, breaking up any larger crumbs as needed. Return pan to the oven.\nBake until crumbs just begin to turn golden, 20 to 25 minutes more. Allow bars to cool completely, about 30 minutes, before cutting and serving.",
+        "url": "https://www.allrecipes.com/lemon-crumb-bars-recipe-8781116",
+        "added_by": null,
+        "is_shared_globally": false,
+        "categories": [],
+        "tags": []
+    }
+},
+{
+    "model": "api.recipe",
+    "pk": 11,
+    "fields": {
+        "name": "Jalapeno Spinach Dip",
+        "prep_time": "00:10:00",
+        "cook_time": "00:25:00",
+        "servings": 8,
+        "instructions": "Preheat the oven to 375 degrees F (190 degrees C).\nHeat butter or olive oil in a cast iron skillet over medium heat. Add green onions, jalapenos, and garlic; cook and stir for 1 to 2 minutes.\nAdd spinach, greens seasoning, and water. Cook and stir until spinach is wilted, about 3 minutes.\nStir cream cheese and mayonnaise together in a separate bowl; stir in spinach and Parmesan cheese. Spread evenly into an oven safe dish. Sprinkle with a little Parmesan.\nBake in the preheated oven until hot and bubbly, 20 to 30 minutes.",
+        "url": "https://www.allrecipes.com/jalapeno-spinach-dip-recipe-8781590",
+        "added_by": null,
+        "is_shared_globally": false,
+        "categories": [],
+        "tags": []
+    }
+},
+{
+    "model": "api.recipe",
+    "pk": 12,
+    "fields": {
+        "name": "Picadillo Cornbread Casserole",
+        "prep_time": "00:35:00",
+        "cook_time": "00:55:00",
+        "servings": 10,
+        "instructions": "Preheat the oven to 375 degrees F (190 degrees C) and spray a 9x13-inch casserole dish with avocado cooking spray.\nIn a large skillet, heat olive oil over medium heat. Add onions and green peppers and cook, stirring, until softened, 2 to 3 minutes. Add garlic and sauté for 30 seconds.\nAdd ground beef to the skillet and cook, until no longer pink, breaking up large pieces. Stir and cook until brown, about 5 minutes. Drain excess fat, and reduce the heat to medium-low.\nStir in tomatoes and green chilies with juice, tomato paste, diced potatoes, cumin, Mexican oregano, chili powder, and salt and pepper to taste. Simmer until fragrant and saucy, 10 to 12 minutes. Remove from the heat and stir in olives and raisins. Pour into prepared casserole dish.\nCombine Cheddar and Monterey Jack cheeses; sprinkle half of cheese mixture on top of picadillo mixture. Reserve remaining cheese for later use.\nIn a large mixing bowl, stir together the corn muffin mix, chili powder, egg, milk, and sour cream. When well blended, stir in chopped jalapeños. Spread cornbread mixture in an even layer over casserole.\nBake in the center of the preheated oven until cornbread is browned and firm to the touch, 35 to 40 minutes. A toothpick inserted into the center of cornbread should come out clean.\nRemove from the oven and cool on a wire rack for about 15 minutes. Sprinkle remaining cheese on top of the warm casserole.\nGarnish with any combination of chopped tomatoes, fresh cilantro, avocado slices, and chopped green onions, and serve warm.",
+        "url": "https://www.allrecipes.com/picadillo-cornbread-casserole-recipe-8781303",
+        "added_by": null,
+        "is_shared_globally": false,
+        "categories": [],
+        "tags": []
+    }
+},
+{
+    "model": "api.recipe",
+    "pk": 13,
+    "fields": {
+        "name": "Creamy Tomato Bean Soup",
+        "prep_time": "00:10:00",
+        "cook_time": "00:35:00",
+        "servings": 4,
+        "instructions": "Preheat the oven to 375 degrees F (190 degrees C). Line a baking tray with foil.\nPlace tomatoes and peppers on the baking tray. Drizzle with olive oil and sprinkle with Cantanzaro herbs and garlic granules.\nBake in the preheated oven until vegetables are tender, about 30 minutes.\nAdd beans, roasted vegetables, tomato paste, and chicken broth to the jar of a blender and blend until smooth. Heat pureed soup over medium-low heat in a saucepan until hot, about 5 minutes; remove from heat. Season with salt and pepper.\nGarnish each bowl with thyme, drizzle with heavy cream, and serve immediately.",
+        "url": "https://www.allrecipes.com/creamy-tomato-bean-soup-recipe-8781238",
+        "added_by": null,
+        "is_shared_globally": false,
+        "categories": [],
+        "tags": []
+    }
+},
+{
+    "model": "api.recipe",
+    "pk": 14,
+    "fields": {
+        "name": "One Pot Mediterranean Shrimp and Vegetables",
+        "prep_time": "00:15:00",
+        "cook_time": "00:25:00",
+        "servings": 5,
+        "instructions": "Cut lemon in half; cut one half into thin slices and set aside. Zest and juice the remaining lemon half into a 1-gallon resealable plastic bag. Add 3 tablespoons olive oil, 1 clove minced garlic, 1/2 teaspoon Greek seasoning, and salt to the bag and seal. Move ingredients around in the bag, gently pressing, to mix.\nAdd shrimp to the bag, reseal, and gently move shrimp inside the bag to coat with marinade. Try to get as much air as possible out of the bag, reseal, and place on a plate. Move shrimp into a single layer inside the bag, and refrigerate shrimp in the marinade. Turn occasionally.\nIn a Dutch oven, heat remaining 2 tablespoons olive oil over medium heat.\nWhen oil shimmers, add onions, bell peppers, and rice. Cook, stirring, 3 to 5 minutes, or until the onion begins to turn clear and the rice begins to toast. Add remaining 2 cloves garlic and red pepper flakes. Cook, stirring, until garlic is fragrant, about 30 seconds.\nAdd diced tomatoes and their juices; pour in chicken broth and wine. Stir in parsley, red pepper flakes, and remaining 1 teaspoon Greek seasoning, and bring to a boil. Cover, reduce heat to low and cook until rice is tender with a bite, 15 to 20 minutes. Season to taste with salt.\nIncrease heat to medium; stir in shrimp and marinade. Bring to a boil; stir in spinach and artichoke hearts. Cook covered, stirring occasionally, until shrimp is pink and opaque and rice is tender, 5 to 8 minutes.\nSprinkle with Parmesan, garnish with parsley sprigs, and serve with lemon slices.",
+        "url": "https://www.allrecipes.com/one-pot-mediterranean-shrimp-and-vegetables-recipe-8780639",
+        "added_by": null,
+        "is_shared_globally": false,
+        "categories": [],
+        "tags": []
+    }
+},
+{
+    "model": "api.recipe",
+    "pk": 15,
+    "fields": {
+        "name": "Potato Cakes with Smoked Salmon",
+        "prep_time": "00:15:00",
+        "cook_time": "00:15:00",
+        "servings": 8,
+        "instructions": "Add grated potatoes, onions and white part of green onion to a large mixing bowl. Stir in eggs and flour until combined.\nSet a small amount of salmon aside for garnish, then stir in salmon and Old Bay seasoning.\nHeat oil in a cast iron skillet over medium heat. Add potato mixture by spoonfuls to the skillet, and flatten with a spatula to make patties. Leave space between potato cakes; you may have to fry in batches.\nCook until golden brown, 2 to 3 minutes per side. Garnish with remaining smoked salmon, green part of green onion, and sour cream.",
+        "url": "https://www.allrecipes.com/potato-cakes-with-smoked-salmon-recipe-8780500",
+        "added_by": null,
+        "is_shared_globally": false,
+        "categories": [],
+        "tags": []
+    }
+},
+{
+    "model": "api.recipe",
+    "pk": 16,
+    "fields": {
+        "name": "Sheet Pan Hawaiian Chicken",
+        "prep_time": "00:30:00",
+        "cook_time": "00:25:00",
+        "servings": 3,
+        "instructions": "Preheat the oven to 375 degrees F (190 degrees C). Line a large sheet pan with foil.\nFor sauce, whisk pineapple juice, brown sugar, soy sauce, ketchup, ginger, garlic, and cornstarch together in a bowl.\nArrange chicken, green bell pepper, red bell pepper, onion, broccoli, and pineapple on the prepared sheet pan. Season with salt and pepper. Pour half of sauce over chicken and vegetables; set aside remaining sauce.\nBake in the preheated oven until vegetables are tender and chicken is no longer pink at the center, about 25 minutes. An instant read thermometer inserted near the center should reach 165 degrees F (74 degrees C).\nMeanwhile, microwave remaining sauce on High until slightly thickened, about 30 seconds. Cut chicken into pieces, drizzle sauce over chicken and vegetables, and toss to coat.",
+        "url": "https://www.allrecipes.com/sheet-pan-hawaiian-chicken-recipe-8780628",
+        "added_by": null,
+        "is_shared_globally": false,
+        "categories": [],
+        "tags": []
+    }
+},
+{
+    "model": "api.recipe",
+    "pk": 17,
+    "fields": {
+        "name": "One Pan Balsamic Chicken",
+        "prep_time": "00:10:00",
+        "cook_time": "00:30:00",
+        "servings": 4,
+        "instructions": "Preheat the oven to 425 degrees F (220 degrees C).\nSlice chicken breasts in half horizontally to create 4 thin chicken breasts. Stir Cantazaro herbs, garlic granules, onion powder, salt, and black pepper together in a small bowl; season chicken on all sides with mixture.\nPour olive oil into a deep cast iron skillet or other ovenproof skillet and place over medium-high heat until oil is hot. Add chicken and sear until golden, 3 to 4 minutes per side. Turn off heat; remove chicken to a plate.\nPour orzo into the skillet; add chicken broth and balsamic vinegar. Add chicken back to the skillet along with any accumulated juices. Scatter cherry tomatoes around, and top chicken with slices of fresh mozzarella.\nBake in the preheated oven until an instant read thermometer, inserted near the center of chicken, reads 165 degrees F (74 degrees C), about 20 minutes. If needed, turn on the oven’s broiler and broil until cheese is golden, about 2 minutes.\nSprinkle with basil and drizzle with balsamic glaze to taste.",
+        "url": "https://www.allrecipes.com/one-pan-balsamic-chicken-recipe-8780488",
+        "added_by": null,
+        "is_shared_globally": false,
+        "categories": [],
+        "tags": []
+    }
+},
+{
+    "model": "api.recipe",
+    "pk": 18,
+    "fields": {
+        "name": "Kale and Roasted Delicata Squash Salad with Pomegranate Vinaigrette",
+        "prep_time": "00:30:00",
+        "cook_time": "00:20:00",
+        "servings": 4,
+        "instructions": "Preheat the oven to 425 degrees F (220 degrees C) and line a sheet pan with parchment paper.\nSplit delicata squash lengthwise and scoop out seeds and strands. Cut each squash half crosswise into 1/2-inch thick slices. Place squash pieces in a bowl and toss with olive oil, salt, black pepper, and ginger. Arrange on the prepared pan in a single layer.\nRoast squash in the preheated oven for 8 to 10 minutes. Using tongs, turn each piece and continue to roast until squash is tender and lightly browned, 8 to 10 minutes more. Set aside to cool.\nFor vinaigrette, add pomegranate juice, olive oil, balsamic vinegar, Dijon mustard, honey, salt, white pepper, and cayenne to a jar with a tight-fitting lid. Cover and shake until well blended, about 30 seconds.\nFor salad, place kale, pear slices, pomegranate arils, and red onion in a large salad bowl. Cut delicata into bite-sized pieces; add to the bowl. Shake vinaigrette again, then toss with salad.\nArrange salad on 4 plates, and top with sliced almonds and crumbled bacon; garnish with cheese. Serve immediately.",
+        "url": "https://www.allrecipes.com/kale-and-roasted-delicata-squash-salad-with-pomegranate-vinaigrette-recipe-8780013",
+        "added_by": null,
+        "is_shared_globally": false,
+        "categories": [],
+        "tags": []
+    }
+},
+{
+    "model": "api.recipe",
+    "pk": 19,
+    "fields": {
+        "name": "Nutella Swirl Cheesecake Bars",
+        "prep_time": "00:20:00",
+        "cook_time": "00:45:00",
+        "servings": 16,
+        "instructions": "Preheat the oven to 350 degrees F (180 degrees C). Line a 9x9-inch square pan with enough parchment paper to have overhang on all sides.\nCombine OREO crumbs, chopped hazelnuts, brown sugar, and pinch of salt in a food processor; pulse until finely ground. Add in melted butter and pulse until mixture is evenly moistened. Pour mixture into the prepared pan and press firmly and evenly into the bottom of the pan.\nBake crust in the preheated oven for 10 minutes. Remove from oven and allow crust to cool for 10 minutes. Keep the oven on.\nBeat cream cheese, white sugar, vanilla, 1/2 teaspoon salt, and nutmeg together in a large bowl with an electric mixer until completely smooth and combined. Add in heavy cream and lemon juice and beat until smooth and combined. Add in egg and mix until just incorporated. Pour batter over crust and spread into an even layer.\nPlace Nutella in a small microwave-safe bowl and microwave until slightly warmed, about 30 seconds. Place dollops of warm Nutella randomly over cheesecake filling. Use a sharp knife to gently swirl the batters together, taking care not to go too deep and cut the crust. Tap the pan on the counter a few times to help the batter to settle again.\nBake bars in the preheated oven until edges of bars begin to turn golden, and bars still have a slight jiggle in the center, 35 to 40 minutes. Allow bars to cool to room temperature; then refrigerate until fully chilled, at least 4 hours. Cut into 16 bars.",
+        "url": "https://www.allrecipes.com/nutella-swirl-cheesecake-bars-recipe-8779386",
+        "added_by": null,
+        "is_shared_globally": false,
+        "categories": [],
+        "tags": []
+    }
+},
+{
+    "model": "api.recipe",
+    "pk": 20,
+    "fields": {
+        "name": "Slow Cooker Ground Beef Stroganoff",
+        "prep_time": "00:10:00",
+        "cook_time": "04:40:00",
+        "servings": 5,
+        "instructions": "Heat a large skillet over medium-high heat. Cook and stir ground beef in the hot skillet until browned and crumbly, 5 to 7 minutes. Remove ground beef to slow cooker.\nAdd butter to the skillet, and cook and stir onions and mushrooms until onions are softened, about 3 minutes. Season with salt and pepper. Add onion mixture to slow cooker; stir to combine.\nPour consommé into slow cooker. Stir in tomato paste, Greek yogurt, whipped cream cheese, Worcestershire sauce, and soy sauce. Cover and cook on High for 4 hours.\nStir dry egg noodles into slow cooker. Cover and cook until noodles are softened, about 30 minutes. If stroganoff seems too dry, stir in beef broth, 1 tablespoon at a time, as needed to thin sauce.",
+        "url": "https://www.allrecipes.com/slow-cooker-ground-beef-stroganoff-recipe-8778867",
+        "added_by": null,
+        "is_shared_globally": false,
+        "categories": [],
+        "tags": []
+    }
+},
+{
+    "model": "api.recipe",
+    "pk": 21,
+    "fields": {
+        "name": "Cowboy Queso",
+        "prep_time": "00:10:00",
+        "cook_time": "00:20:00",
+        "servings": 8,
+        "instructions": "Crumble ground beef into a large skillet over medium-high heat and cook and stir until browned, about 5 minutes; drain.\nPlace drained beef back in the skillet. Add salt, pepper, jalapeno, red onion, and beer. Cook until onion is translucent, about 3 minutes.\nReduce heat to medium-low. Add Velveeta and pepper Jack cheese. Cook, stirring, until cheese is melted, about 5 minutes.\nAdd beans, RO*TEL®, and black olives. Cook until hot, stirring frequently, about 5 minutes. Transfer to serving bowls, garnish with chopped cilantro, and serve.",
+        "url": "https://www.allrecipes.com/cowboy-queso-recipe-8778688",
+        "added_by": null,
+        "is_shared_globally": false,
+        "categories": [],
+        "tags": []
+    }
+},
+{
+    "model": "api.recipe",
+    "pk": 22,
+    "fields": {
+        "name": "Coconut Lime Fish Soup",
+        "prep_time": "00:10:00",
+        "cook_time": "00:30:00",
+        "servings": 6,
+        "instructions": "Pat fish dry with a paper towel. Season fish with salt and pepper, squeeze lime juice over each fillet, and gently rub in. Set aside.\nHeat oil in a Dutch oven over medium heat. Add onions, red pepper, green pepper, yellow pepper, and celery; cook for 1 to 2 minutes.\nAdd garlic, ginger, and Old Bay seasoning. Cook until bell peppers begin to soften, 3 to 5 minutes.\nAdd tomatoes and green onions, bring to a simmer, and cook, uncovered, for 3 to 5 minutes. Place fish pieces on top of the vegetables and pour coconut milk over the mixture.\nBring soup to a simmer, reduce heat to low, cover, and simmer for 15 minutes. Taste; adjust seasoning with salt and lime juice to taste.",
+        "url": "https://www.allrecipes.com/coconut-lime-fish-soup-recipe-8776064",
+        "added_by": null,
+        "is_shared_globally": false,
+        "categories": [],
+        "tags": []
+    }
+},
+{
+    "model": "api.recipe",
+    "pk": 23,
+    "fields": {
+        "name": "Loaded Roasted Cauliflower",
+        "prep_time": "00:10:00",
+        "cook_time": "00:35:00",
+        "servings": 4,
+        "instructions": "Preheat the oven to 425 degrees F (220 degrees C). Line a large baking sheet with aluminum foil.\nCook bacon in a large skillet over medium-high heat until crisp, about 8 minutes. Remove bacon to a paper towel-lined plate, and reserve bacon grease.\nPlace cauliflower florets in a large mixing bowl. Add garlic powder and black pepper. Pour reserved bacon grease over the top. Toss to coat. Pour cauliflower mixture on prepared baking sheet and spread into an even layer.\nRoast in the preheated oven for 25 minutes. Sprinkle cheese over cauliflower and continue to roast until cheese is melted, about 2 minutes more.\nTop with bacon and green onions. Drizzle ranch dressing over the top and serve immediately.",
+        "url": "https://www.allrecipes.com/loaded-roasted-cauliflower-recipe-8768291",
+        "added_by": null,
+        "is_shared_globally": false,
+        "categories": [],
+        "tags": []
+    }
+},
+{
+    "model": "api.recipe",
+    "pk": 24,
+    "fields": {
+        "name": "Tomato White Bean Soup",
+        "prep_time": "00:10:00",
+        "cook_time": "00:25:00",
+        "servings": 4,
+        "instructions": "Heat olive oil in a large pan over medium heat. Add onion and carrot and cook, stirring often, until soft, 6 to 8 minutes. Stir in garlic, and cook until fragrant, 30 seconds to 1 minute.\nStir in tomatoes, tomato paste, Italian seasoning, and red pepper flakes until well combined. Add beans, vegetable stock, lemon juice, salt, and pepper, and simmer covered for 15 to 20 minutes, stirring occasionally.\nFinish the soup by stirring in spinach, cooking until just wilted, and serve hot.",
+        "url": "https://www.allrecipes.com/tomato-white-bean-soup-recipe-8776019",
+        "added_by": null,
+        "is_shared_globally": false,
+        "categories": [],
+        "tags": []
+    }
+},
+{
+    "model": "api.recipe",
+    "pk": 25,
+    "fields": {
+        "name": "Halibut en Papillote",
+        "prep_time": "00:15:00",
+        "cook_time": "00:25:00",
+        "servings": 2,
+        "instructions": "Preheat the oven to 425 degrees F (220 degrees C). Tear off 2 pieces of parchment paper, at least 18 inches long.\nMash garlic and butter together in a small bowl with the back of a spoon.\nPlace 4 lemon slices on each piece of parchment. Layer with thinly sliced potato and 4 asparagus spears. Scatter bell pepper over, and top with 1 tablespoon butter.\nPlace 1 halibut filet onto each stack of vegetables, and add 1 tablespoon butter. Layer on remaining lemon slices. Season with salt and pepper.\nTo close packets, bring opposite sides of parchment together directly above fish. Roll down together tightly until parchment touches packet contents. Crimp the parchment. Now roll and crimp the other 2 sides of parchment to create a sealed packet; tuck ends underneath. Place packets on a baking tray.\nBake in the preheated oven until fish flakes easily with a fork, about 25 minutes. Remove from the oven; let packets rest for 2 to 3 minutes before opening carefully.",
+        "url": "https://www.allrecipes.com/halibut-en-papillote-recipe-8775088",
+        "added_by": null,
+        "is_shared_globally": false,
+        "categories": [],
+        "tags": []
+    }
+},
+{
+    "model": "api.recipe",
+    "pk": 26,
+    "fields": {
+        "name": "Thai Peanut Butter Ramen",
+        "prep_time": "00:10:00",
+        "cook_time": "00:05:00",
+        "servings": 3,
+        "instructions": "Bring a large pot of water to a boil over high heat. Add noodles, and cook to desired doneness, 3 to 5 minutes.\nAdd peanut butter, soy sauce, honey, sriracha, and sesame oil to a large bowl, and whisk until smooth.\nReserve 1/2 cup pasta water. Drain ramen noodles well, and immediately add them to peanut butter sauce, tossing until noodles are well-coated. If you prefer thinner sauce, add reserved pasta water, 1 tablespoon at a time, to thin.\nDivide into bowls, garnish with green onions, peanuts, and lime wedges for squeezing over each serving, and serve immediately.",
+        "url": "https://www.allrecipes.com/thai-peanut-butter-ramen-recipe-8775397",
+        "added_by": null,
+        "is_shared_globally": false,
+        "categories": [],
+        "tags": []
+    }
+},
+{
+    "model": "api.recipe",
+    "pk": 27,
+    "fields": {
+        "name": "Italian Ricotta Cookie Bars",
+        "prep_time": "00:15:00",
+        "cook_time": "00:30:00",
+        "servings": 16,
+        "instructions": "Preheat the oven to 350 degrees F (180 degrees C). Line a 9x9-inch square pan with enough parchment paper to have overhang on all sides, and lightly grease the parchment.\nFor cookie bars, beat butter, white sugar, brown sugar, salt, and nutmeg together in a bowl with an electric mixer until light and fluffy, 2 to 3 minutes. Add in eggs and beat for 1 more minute. Add in ricotta, lemon zest, lemon juice, and vanilla and mix until thoroughly incorporated. Add in flour and baking soda and mix until just combined. Pour batter into the prepared pan and spread into an even layer.\nBake until golden and the center of the bars feel just set when lightly touched, 25 to 30 minutes. Remove from oven and allow to cool completely.\nFor icing, mix together powdered sugar, melted butter, lemon juice, vanilla, pinch of salt and 3 teaspoons of milk until smooth. If glaze is too thick, add another teaspoon of milk until it is a pourable consistency. Pour glaze over bars and spread into an even layer. Sprinkle nonpareils over icing before it sets. Allow glaze to set before cutting into 16 bars. Bars can be placed in the refrigerator to speed up setting. Keep bars stored in the refrigerator, but bring to room temperature to serve.",
+        "url": "https://www.allrecipes.com/italian-ricotta-cookie-bars-recipe-8775003",
+        "added_by": null,
+        "is_shared_globally": false,
+        "categories": [],
+        "tags": []
+    }
+},
+{
+    "model": "api.recipe",
+    "pk": 28,
+    "fields": {
+        "name": "Apple Cider Pork Tenderloin With Sweet Potatoes",
+        "prep_time": "00:15:00",
+        "cook_time": "00:30:00",
+        "servings": 4,
+        "instructions": "Preheat the oven to 425 degrees F (220 degrees C) and line a sheet pan with parchment. Combine garlic, salt, pepper, thyme and smoked paprika in a small bowl.\nPat tenderloin dry with paper towels. Coat all sides with half of seasoning mixture, using fingertips to rub into the meat. Let seasoned tenderloin stand at room temperature while other ingredients are being prepped.\nCombine apples, red onion, and sweet potato in a bowl. Sprinkle with remaining seasoning mixture and stir to combine. Melt 2 tablespoons butter, pour over seasoned mixture, and stir to coat. Spread in a single layer on the prepared baking sheet.\nRoast in the center of the preheated oven, uncovered, for about 10 minutes.\nMeanwhile, melt remaining butter in a large skillet over medium-high heat. When butter stops sizzling, add tenderloin to the skillet and brown on all sides, 2 to 3 minutes per side. Nestle tenderloin into the middle of the sheet pan with apple mixture.\nReturn pan to the oven and roast while glaze is prepared, 10 to 15 minutes.\nMeanwhile, for glaze, to the same skillet add apple cider, red wine vinegar, and Dijon mustard. Increase heat to medium-high and bring to a full rolling boil. Allow liquid to reduce to about 1 cup, and spoon generously over tenderloin and apple mixture.\nContinue roasting until the internal temperature of the thickest part of pork reaches 140 degrees F (60 degrees C), 5 to 10 minutes more.\nRemove from the oven and tent with foil. Allow to rest about 5 minutes. Residual cooking should bring pork up to 145 degrees F (63 degrees C), when tested with an instant read thermometer.\nTo serve, slice pork into 1/2-inch slices, garnish with fresh thyme, and serve with roasted vegetables and apples.",
+        "url": "https://www.allrecipes.com/apple-cider-pork-tenderloin-with-sweet-potatoes-recipe-8774666",
+        "added_by": null,
+        "is_shared_globally": false,
+        "categories": [],
+        "tags": []
+    }
+},
+{
+    "model": "api.recipe",
+    "pk": 29,
+    "fields": {
+        "name": "Mediterranean Salmon Baked in Parchment",
+        "prep_time": "00:15:00",
+        "cook_time": "00:45:00",
+        "servings": 2,
+        "instructions": "Preheat the oven to 350 degrees F (180 degrees C). Place each salmon fillet on a sheet of parchment.\nMelt 2 tablespoons butter and brush over salmon. Combine panko, pecans, garlic salt, and 1/2 teaspoon Greek seasoning in a small bowl and stir together. Evenly sprinkle over salmon fillets.\nCrimp and fold parchment around fillets to form a packet. Place packets on a rimmed baking tray.\nBake in the preheated oven until salmon flakes easily with a fork, about 25 minutes.\nMeanwhile, for sauce, heat grapeseed oil in a skillet over medium heat. Add mushrooms and cook, stirring, for about 3 minutes. Stir in artichoke hearts, remaining 1/2 teaspoon Greek seasoning and pepper, and continue to cook and stir for about 6 minutes. Pour in white wine. Biring to a simmer and cook until liquid is reduced by half, about 10 minutes.\nAdd roasted bell pepper, and cook, stirring, until peppers are warmed through, about 1 minute. Stir in remaining butter to melt, about 1 minute more.\nCarefully peel back parchment from salmon and ladle sauce over the salmon.",
+        "url": "https://www.allrecipes.com/mediterranean-salmon-baked-in-parchment-recipe-8768509",
+        "added_by": null,
+        "is_shared_globally": false,
+        "categories": [],
+        "tags": []
+    }
+},
+{
+    "model": "api.recipe",
+    "pk": 30,
+    "fields": {
+        "name": "Nordstrom's Tomato Basil Soup",
+        "prep_time": "00:15:00",
+        "cook_time": "00:45:00",
+        "servings": 8,
+        "instructions": "For soup, heat olive oil in a 3 to 4 quart pot over medium heat. Add carrots and onions, and cook, stirring frequently, until vegetables are softened, 5 to 7 minutes.\nAdd dried basil, salt, and black pepper, and stir for about 1 minute. Add tomatoes and their juices along with vegetable broth. Stir, bring to a boil, then reduce heat and slowly simmer 20 to 25 minutes, uncovered. Add minced fresh basil and cream and simmer about 5 minutes more.\nPuree the soup with a stick blender or a blender. Taste and adjust seasonings.\nMeanwhile, for crostini, preheat the oven to 375 degrees F (190 degrees C). Line a baking sheet with parchment. Place baguette slices on the prepared pan.\nCombine butter, granulated garlic, salt, and minced parsley in a bowl. Use a spatula to mash and stir until well mixed. Add shredded Parmesan and stir until a paste is formed.\nSpread about 1 tablespoon garlic-Parmesan paste on each baguette slice.\nBake in the preheated oven until lightly browned and crunchy, 12 to 15 minutes, or until lightly browned and crunchy.\nTo serve, ladle soup into serving bowls and serve with crostini. Garnish with fresh basil.",
+        "url": "https://www.allrecipes.com/nordstrom-s-tomato-basil-soup-recipe-8769886",
+        "added_by": null,
+        "is_shared_globally": false,
+        "categories": [],
+        "tags": []
+    }
+},
+{
+    "model": "api.recipe",
+    "pk": 31,
+    "fields": {
+        "name": "Baked Sweet and Sour Chicken Thighs with Pineapple",
+        "prep_time": "00:15:00",
+        "cook_time": "00:15:00",
+        "servings": 2,
+        "instructions": "Preheat the oven to 400 degrees F (200 degrees C). Lightly grease a baking dish or spray with cooking spray.\nPat chicken thighs dry with a paper towel, cut into 1-inch chunks, and add to the dish. Sprinkle with cornstarch, and toss until chicken is coated. Stir in onions, green and red bell peppers, and pineapple.\nAdd ketchup, rice vinegar, brown sugar, soy sauce, garlic, and ginger paste to a small bowl, whisk until well combined, and stir into the chicken mixture.\nBake until chicken is no longer pink at the center and juices run clear, 14 to 17 minutes, stirring halfway through. An instant-read thermometer inserted near the center should read 165 degrees F (74 degrees C). If sauce is a bit thick, stir in a splash of water to thin out until you reach your desired consistency.\nGarnish with green onion slices and serve.",
+        "url": "https://www.allrecipes.com/baked-sweet-and-sour-chicken-thighs-with-pineapple-recipe-8607437",
+        "added_by": null,
+        "is_shared_globally": false,
+        "categories": [],
+        "tags": []
+    }
+},
+{
+    "model": "api.recipe",
+    "pk": 32,
+    "fields": {
+        "name": "Sheet Pan Lemon Balsamic Chicken and Potatoes",
+        "prep_time": "00:20:00",
+        "cook_time": "00:30:00",
+        "servings": 4,
+        "instructions": "Preheat the oven to 425 degrees F (220 degrees C). Line a large baking sheet with aluminum foil. Place chicken and potatoes in a large bowl.\nWhisk 1/4 cup olive oil, balsamic vinegar, Dijon mustard, paprika, oregano, garlic, black pepper, and chili flakes together in a small bowl. Pour mixture over chicken and potatoes; toss to coat. Arrange chicken and potatoes on the prepared baking sheet in an even layer.\nBake in the preheated oven until chicken juices run clear and potatoes are tender, 30 to 35 minutes. An instant-read thermometer inserted near the center of chicken should read 165 degrees F (74 degrees C).\nMeanwhile, for brine, stir 2 tablespoons olive oil, olives, lemon juice, pepperoncini, basil, and dill together in a small bowl. Stir tzatziki sauce and feta together in a separate bowl.\nRemove chicken and potatoes from the oven. Divide onto serving plates. Drizzle with olive brine and top with tzatziki feta sauce. Serve immediately.",
+        "url": "https://www.allrecipes.com/sheet-pan-lemon-balsamic-chicken-and-potatoes-recipe-8769182",
+        "added_by": null,
+        "is_shared_globally": false,
+        "categories": [],
+        "tags": []
+    }
+},
+{
+    "model": "api.recipe",
+    "pk": 33,
+    "fields": {
+        "name": "Easy Parmesan Garlic Ramen",
+        "prep_time": "00:05:00",
+        "cook_time": "00:10:00",
+        "servings": 3,
+        "instructions": "Bring 6 cups water to a boil in a large soup pot; add noodles and boil for 3 minutes, stirring occasionally. Drain, reserving 1 cup of cooking, water and set aside.\nMelt butter in a large skillet over medium heat. Add garlic and cook until fragrant, about 1 minute.\nStir in Parmesan cheese, Italian seasoning, and reserved cooking water. Cook until cheese is melted and sauce is thick, about 5 minutes.\nAdd noodles to the skillet, and toss gently until heated through . Top with parsley if desired, and serve immediately.",
+        "url": "https://www.allrecipes.com/easy-parmesan-garlic-ramen-recipe-8770557",
+        "added_by": null,
+        "is_shared_globally": false,
+        "categories": [],
+        "tags": []
+    }
+},
+{
+    "model": "api.recipe",
+    "pk": 34,
+    "fields": {
+        "name": "Copycat Chick-fil-A Chicken Tortilla Soup",
+        "prep_time": "00:10:00",
+        "cook_time": "00:10:00",
+        "servings": 5,
+        "instructions": "Heat oil in a large stock pot over medium-high heat. Add onion and cook 3 minutes. Stir in garlic, oregano, and cumin. Cook 2 minutes more.\nMeanwhile, puree 2 cans of the cannellini beans in a blender until smooth.\nTo the stock pot with onions add pureed beans, remaining can of cannellini beans, Rotel (R), both cans of corn, black beans, and chicken. Stir to combine.\nBring to a boil, reduce heat, and simmer 5 minutes. Turn heat off and stir in lime juice. Ladle into bowls and top with tortilla strips.",
+        "url": "https://www.allrecipes.com/copycat-chick-fil-a-chicken-tortilla-soup-recipe-8768430",
+        "added_by": null,
+        "is_shared_globally": false,
+        "categories": [],
+        "tags": []
+    }
+},
+{
+    "model": "api.recipe",
+    "pk": 35,
+    "fields": {
+        "name": "Mediterranean Salmon Baked in Foil",
+        "prep_time": "00:15:00",
+        "cook_time": "00:15:00",
+        "servings": 4,
+        "instructions": "Preheat the oven to 400 degrees F (200 degrees C). Brush the center of each foil rectangle with a small amount of olive oil.\nPlace a salmon filet in the center of each foil sheet. Brush filets lightly with olive oil; sprinkle with Greek seasoning.\nIn a small bowl, combine tomatoes, artichokes, onion, olives, lemon zest and juice, minced parsley, balsamic vinegar, garlic, red pepper flakes, and 1 tablespoon olive oil. Season to taste with salt and pepper.\nSpoon tomato mixture evenly over filets. Pull the long ends of foil rectangles over filets and fold twice to crimp, with the foil not touching the contents. Lift each end of the packet and pinch closed. Place packets on a rimmed baking sheet.\nBake in the center of the preheated oven for 12 to 15 minutes. An instant read thermometer, inserted into the center of filets through the foil packet, should read 145 degrees F (63 degrees C).\nTo serve, place foil packs on serving plates. Open packets, drizzle with any remaining olive oil, garnish with parsley sprigs, and serve with lemon wedges.",
+        "url": "https://www.allrecipes.com/mediterranean-salmon-baked-in-foil-recipe-8768562",
+        "added_by": null,
+        "is_shared_globally": false,
+        "categories": [],
+        "tags": []
+    }
+},
+{
+    "model": "api.recipe",
+    "pk": 36,
+    "fields": {
+        "name": "Hot Honey Roasted Cauliflower",
+        "prep_time": "00:10:00",
+        "cook_time": "00:30:00",
+        "servings": 5,
+        "instructions": "Preheat the oven to 425 degrees F (220 degrees C). Line a baking sheet with parchment. Break cauliflower into small florets; slice any larger chunks into bite-sized pieces.\nPour hot honey, olive oil, and salt into a gallon-sized resealable plastic bag. Knead mixture to combine. Add cauliflower and toss until well coated. Pour cauliflower onto prepared baking sheet; spread out evenly.\nBake in the preheated oven for 15 minutes; remove from oven and turn cauliflower pieces over. Continue baking until tender and caramelized, 15 to 20 minutes more. Serve immediately.",
+        "url": "https://www.allrecipes.com/hot-honey-roasted-cauliflower-recipe-8768267",
+        "added_by": null,
+        "is_shared_globally": false,
+        "categories": [],
+        "tags": []
+    }
+},
+{
+    "model": "api.recipe",
+    "pk": 37,
+    "fields": {
+        "name": "Boursin Pork Chops",
+        "prep_time": "00:10:00",
+        "cook_time": "00:25:00",
+        "servings": 4,
+        "instructions": "Pat chops dry with paper towels, and season each side with salt, pepper, and granulated garlic. If using powdered garlic, use a bit more.\nHeat oil and butter in a large nonstick skillet over medium high heat, until butter stops sizzling. Add seasoned pork chops and brown on both sides, about 3 minutes per side. Remove chops from skillet and keep warm.\nAdd shallots and mushrooms to the same skillet. Reduce heat to medium and cook, stirring, until mushrooms begin to soften and release moisture, about 5 minutes. Season with just a pinch of salt, or to taste.\nNestle chops back in the skillet, along with any accumulated juices, and bring some of the vegetables over the top of chops. Cover, reduce heat to low, and simmer for 3 to 5 minutes. Turn heat back up to medium, stack chops on one side of skillet, stir cream into pan drippings, and add Boursin. Stir continually, until cheese is melts and sauce is bubbling, about 2 minutes.\nRedistribute chops in the skillet and cook until an instant read thermometer inserted near the center reads 145 degrees F (63 degrees C), about 5 minutes more. Garnish with chives and serve warm.",
+        "url": "https://www.allrecipes.com/boursin-pork-chops-recipe-8763443",
+        "added_by": null,
+        "is_shared_globally": false,
+        "categories": [],
+        "tags": []
+    }
+},
+{
+    "model": "api.recipe",
+    "pk": 38,
+    "fields": {
+        "name": "Justin Rowland's Philly Cheesesteak Egg Rolls",
+        "prep_time": "00:25:00",
+        "cook_time": "00:05:00",
+        "servings": 4,
+        "instructions": "Preheat a large skillet over medium heat. Add olive oil and onions and let cook for 4 to 6 minutes, stirring every 2 minutes.\nOnce onions are a little crisp, add shaved ribeye meat. Stir in garlic and season with salt and pepper. Continue to cook until steak is fully cooked, about 10 minutes.\nTransfer meat mixture to a large mixing bowl.\nPlace an egg roll wrapper on a clear work surface like a diamond and add a slice of cheese. Wet corners with the eggs.\nFold bottom corner over the filling, fold 2 sides inwards, and roll up tightly.\nHeat oil in a large Dutch oven to 350 degrees F (180 degrees C). Check temperature with a deep fry thermometer.\nWorking in batches, add 2 to 3 egg rolls at a time to the hot oil, making sure to not overcrowd the pot. Fry until golden brown, 2 to 5 minutes per side. Transfer to a paper towel lined plate to drain.\nMeanwhile, stir together ketchup and mayonnaise in a bowl for the dipping sauce.\nSlice egg rolls diagonally on a cutting board and serve with the dipping sauce.",
+        "url": "https://www.allrecipes.com/justin-rowlands-philly-cheesesteak-egg-rolls-recipe-8762569",
+        "added_by": null,
+        "is_shared_globally": false,
+        "categories": [],
+        "tags": []
+    }
+},
+{
+    "model": "api.recipe",
+    "pk": 39,
+    "fields": {
+        "name": "Cod Piccata",
+        "prep_time": "00:05:00",
+        "cook_time": "00:15:00",
+        "servings": 3,
+        "instructions": "Pat cod filets dry with paper towels and lightly season both sides with salt and pepper. Use a scant teaspoon of flour to very lightly dust one side of cod filets. See note.\nMelt 2 tablespoons butter in a large skillet over medium high heat. When butter stops bubbling, add cod filets, floured side down. Cook undisturbed, until a light brown color develops, about 3 minutes. Keeping the floured side up, carefully remove filets from skillet and keep warm.\nCook lemon slices in the same skillet for 2 to 3 minutes, turning to cook evenly, and add shallots and capers. Cook about 1 minute more.\nStir in white wine; cook about 1 minute, scraping up any browned bits from the bottom of the skillet. Stir in chicken broth and chopped parsley, and squeeze juice of reserved lemon half into the skillet; cook about 4 minutes.\nGently return filets to the skillet, floured side up. Cook in the sauce until an instant read thermometer inserted in the center reads 145 degrees F (63 degrees C). Remove to a serving plate, floured side up, and keep warm.\nRemove about 1/4 cup of liquid from skillet; allow to cool slightly.\nAdd remaining 2 tablespoons butter to skillet and stir until melted.\nWhisk cooled liquid and remaining flour together to make a smooth slurry. Stir slurry briskly into the skillet, and cook until sauce is thickened and bubbly. Pour sauce over cod filets, and garnish with parsley sprigs.",
+        "url": "https://www.allrecipes.com/cod-piccata-recipe-8763624",
+        "added_by": null,
+        "is_shared_globally": false,
+        "categories": [],
+        "tags": []
+    }
+},
+{
+    "model": "api.recipe",
+    "pk": 40,
+    "fields": {
+        "name": "Tortellini Lasagna Skillet",
+        "prep_time": "00:10:00",
+        "cook_time": "00:50:00",
+        "servings": 8,
+        "instructions": "Preheat the oven to 350 degrees F (180 degrees C).\nCook ground beef and sausage in a deep dish skillet over medium heat, breaking up the meat with a spatula, until browned, about 5 minutes. Add onion; cook and stir for 5 minutes. Add mushrooms and cook for 5 minutes more. Drain any excess grease.\nStir in tortellini, crushed tomatoes, diced tomatoes, tomato sauce, Italian seasoning, and garlic. Season with salt and pepper. Smooth out mixture in the skillet, and top with mozzarella cheese.\nBake in the preheated oven until cheese is melted and golden, about 35 minutes. Garnish with chopped parsley.",
+        "url": "https://www.allrecipes.com/tortellini-lasagna-skillet-recipe-8754041",
+        "added_by": null,
+        "is_shared_globally": false,
+        "categories": [],
+        "tags": []
+    }
+},
+{
+    "model": "api.recipe",
+    "pk": 41,
+    "fields": {
+        "name": "Christmas Cheesecake Bars",
+        "prep_time": "00:20:00",
+        "cook_time": "00:55:00",
+        "servings": 16,
+        "instructions": "Preheat the oven to 350 degrees F (180 degrees C). Line a 9x9-inch square pan with enough parchment paper to have overhang on all sides.\nFor the crust, combine butter, brown sugar, white sugar, salt, nutmeg, vanilla, and almond extract in a large bowl and beat with an electric mixer until light and fluffy, 2 to 3 minutes. Add in 1 cup of flour and mix until just combined. Add in remaining 1 cup flour and beat until mixture resembles coarse crumbs. Pour in sprinkles and use your hands to mix the dough until it comes together in large clumps.\nMeasure out about 1 1/2 cups of the crumb mixture and place into the prepared pan; press firmly and evenly into the bottom of the pan. Reserve remaining crumbs for topping.\nBake in the preheated oven until edges of crust begin to turn golden, 15 to 20 minutes. Remove from the oven and allow crust to cool for 5 minutes. Keep the oven on.\nWhile crust bakes, make the filling; combine cream cheese, sugar, flour, vanilla, salt, and nutmeg in a large bowl and beat with an electric mixer until smooth and well combined. Add in heavy cream and lemon juice and mix until smooth and combined. Add in eggs and mix on low speed until just combined.\nOnce crust has cooled for 5 minutes, pour filling over the crust and spread into an even layer. Sprinkle reserved crumbs over the top of the filling, breaking up any very large clumps of dough as needed.\nReturn pan to the oven and bake until edges of bars are slightly puffed and set; with just a slight jiggle in the center, 30 to 35 minutes. Allow bars to cool to room temperature, then refrigerate until chilled; at least 4 hours. Cut into 16 bars.",
+        "url": "https://www.allrecipes.com/christmas-cheesecake-bars-recipe-8762231",
+        "added_by": null,
+        "is_shared_globally": false,
+        "categories": [],
+        "tags": []
+    }
+},
+{
+    "model": "api.recipe",
+    "pk": 42,
+    "fields": {
+        "name": "Pomegranate Glazed Salmon",
+        "prep_time": "00:15:00",
+        "cook_time": "00:25:00",
+        "servings": 4,
+        "instructions": "Preheat the oven to 375 degrees F (190 degrees C) and line a sheet pan with parchment paper.\nPlace salmon on the prepared sheet pan and allow to come to room temperature. Stir melted butter and orange juice together in a small bowl, and brush on salmon fillets. Season with salt and pepper.\nBake salmon in the preheated oven until an instant read thermometer, inserted near the center, reaches 145 degrees F (63 degrees C), 13 to 15 minutes.\nMeanwhile, for drizzle, combine pomegranate juice, brown sugar, orange juice, and salt in a small saucepan over medium-high heat. Bring to a boil, and cook, stirring frequently, until the mixture is slightly thickened, about 10 minutes. Remove from heat.\nFor spinach, pour olive oil into a large skillet, and heat over medium heat until oil shimmers. Add green onion and garlic and cook, stirring, until garlic is fragrant, about 30 seconds. Add spinach and cook, turning the spinach and stirring, until just wilted and still bright green, about 2 minutes.\nTransfer spinach to a serving platter, and place salmon filets on top. Drizzle salmon with pomegranate drizzle, and sprinkle with pomegranate arils. Garnish with parsley, green onions, orange slices, and orange zest.",
+        "url": "https://www.allrecipes.com/pomegranate-glazed-salmon-recipe-8760727",
+        "added_by": null,
+        "is_shared_globally": false,
+        "categories": [],
+        "tags": []
+    }
+},
+{
+    "model": "api.recipe",
+    "pk": 43,
+    "fields": {
+        "name": "Cauliflower Cheddar Soup",
+        "prep_time": "00:10:00",
+        "cook_time": "00:35:00",
+        "servings": 4,
+        "instructions": "Preheat the oven to 425 degrees F (220 degrees C).\nLine a baking tray with parchment paper. Spread onion, cauliflower and garlic onto baking tray. Spritz with oil. Season with salt and pepper.\nRoast in the preheated oven until florets and onion have taken on a golden color, about 30 minutes.\nMeanwhile, over medium heat, add flour to a saucepan and slowly whisk in broth; cook until slightly thickened, 3 to 5 minutes. Remove 1/2 cup broth; set aside.\nAdd roasted cauliflower mixture to saucepan. Blend soup with an immersion until as chunky or smooth as you like.\nTurn heat to low; stir in cheese and milk. Stir reserved broth, a little at a time, into yogurt. Remove soup from heat and stir in yogurt mixture. Garnish with extra shredded cheese if desired.",
+        "url": "https://www.allrecipes.com/cauliflower-cheddar-soup-recipe-8761982",
+        "added_by": null,
+        "is_shared_globally": false,
+        "categories": [],
+        "tags": []
+    }
+},
+{
+    "model": "api.recipe",
+    "pk": 44,
+    "fields": {
+        "name": "Creamy Brie and Bacon Pasta",
+        "prep_time": "00:15:00",
+        "cook_time": "00:25:00",
+        "servings": 4,
+        "instructions": "Bring a large pot of salted water to a rolling boil. Add fettuccini and cook, stirring occasionally, until al dente, about 12 to 13 minutes, or your preferred doneness. Drain, reserving 1/2 cup pasta water; set aside.\nMeanwhile, place bacon in a large skillet over medium heat and cook on both sides until brown and crisp, about 5 minutes. Remove bacon to drain on paper towels, leaving fat in skillet. Break into bite-sized pieces when cool enough to handle.\nAdd onion and mushrooms to skillet with bacon fat, stirring occasionally, and saute until lightly caramelized, about 5 minutes. Add garlic, and saute for about 30 seconds to a minute.\nCut Brie into small cubes and add to the skillet, stirring to melt and combine. Add enough pasta water to form a smooth sauce, and stir in sun dried tomatoes.\nAdd cooked fettuccini to skillet, toss to combine, and season with salt and pepper. Sprinkle with cooked bacon, garnish with parsley or basil, and serve immediately.",
+        "url": "https://www.allrecipes.com/creamy-brie-and-bacon-pasta-recipe-8761429",
+        "added_by": null,
+        "is_shared_globally": false,
+        "categories": [],
+        "tags": []
+    }
+},
+{
+    "model": "api.recipe",
+    "pk": 45,
+    "fields": {
+        "name": "Slow Cooker Sausage Tortellini Soup",
+        "prep_time": "00:20:00",
+        "cook_time": "08:00:00",
+        "servings": 10,
+        "instructions": "Cook sausage in a nonstick skillet over medium-high heat; stir frequently and break up meat with a spatula into lima bean-sized pieces, until browned, about 5 minutes. Use a slotted spoon to remove sausage from skillet; add to a 6-quart slow cooker.\nAdd chopped onion and celery to the same skillet; cook and stir until vegetables begin to soften, 3 to 5 minutes. Add minced garlic and cook, stirring, about 30 seconds.\nPour vegetable mixture into the slow cooker. Add tomatoes with juices; break tomatoes into bite-sized pieces. Add chicken stock or broth, stir to distribute evenly, cover, and cook on Low 7 or 8 hours, or on High 3 to 4 hours.\nAbout halfway through the cooking process, season with salt and pepper, and add Italian herb seasoning blend. See note.\nAbout 30 minutes before serving, turn slow cooker to High, add tortellini and kale, and adjust seasoning. Cover and cook until tortellini is tender, about 30 minutes.\nServe warm, and garnish with grated Parmesan cheese.",
+        "url": "https://www.allrecipes.com/slow-cooker-sausage-tortellini-soup-recipe-8762313",
+        "added_by": null,
+        "is_shared_globally": false,
+        "categories": [],
+        "tags": []
+    }
+},
+{
+    "model": "api.recipe",
+    "pk": 46,
+    "fields": {
+        "name": "Baked Boursin Tomato Dip",
+        "prep_time": "00:10:00",
+        "cook_time": "00:35:00",
+        "servings": 6,
+        "instructions": "Preheat the oven to 400 degrees F (200 degrees C).\nCombine tomatoes, olive oil, garlic, basil, salt, and pepper in a baking dish. Make a well in the center, and drop in the Boursin cheese.\nBake in the preheated oven until the cheese starts to lightly brown, 35 to 40 minutes. Use a fork to mash the cheese and then stir some of the tomatoes into it.\nGarnish with fresh chopped basil or sliced green onions, and serve immediately.",
+        "url": "https://www.allrecipes.com/baked-boursin-tomato-dip-recipe-8761942",
+        "added_by": null,
+        "is_shared_globally": false,
+        "categories": [],
+        "tags": []
+    }
+},
+{
+    "model": "api.recipe",
+    "pk": 47,
+    "fields": {
+        "name": "Bang Bang Salmon",
+        "prep_time": "00:10:00",
+        "cook_time": "00:15:00",
+        "servings": 4,
+        "instructions": "Gather all ingredients. Preheat the oven to 400 degrees F (200 degrees C). Line a large baking sheet with parchment paper.\nPlace salmon filets on the prepared baking sheet and sprinkle with 1/8 teaspoon salt.\nWhisk mayonnaise, sweet chili sauce, and Sriracha (R) together in a small bowl. Spoon half of sauce over filets; reserve remaining sauce for serving.\nBake salmon in the preheated oven for 8 minutes. Turn broiler on High and broil until fish flakes easily with a fork, about 6 minutes.\nMeanwhile, for salad, combine cucumber, avocado, cilantro, 1 1/2 teaspoons salt, and lime juice in a separate bowl.\nDrizzle reserved sauce over salmon, and serve with cucumber salad.",
+        "url": "https://www.allrecipes.com/bang-bang-salmon-recipe-8748368",
+        "added_by": null,
+        "is_shared_globally": false,
+        "categories": [],
+        "tags": []
+    }
+},
+{
+    "model": "api.recipe",
+    "pk": 48,
+    "fields": {
+        "name": "Boursin Omelet",
+        "prep_time": "00:10:00",
+        "cook_time": "00:05:00",
+        "servings": 1,
+        "instructions": "Whisk eggs, water, salt, and pepper together in a bowl until yolks and whites are completely combined and eggs are light and frothy, about 30 seconds.\nMelt butter in an 8-inch nonstick skillet over medium heat. Pour eggs into skillet and stir rapidly for 20 to 30 seconds until eggs are just starting to set. Spread top of eggs in an even layer and let cook until just slightly underdone and shiny. If necessary, move extra raw egg around to the edges of the skillet. Lower heat to medium-low to prevent browning, if necessary.\nSprinkle cheese down the middle of the omelet, along with 2 teaspoons chives. Fold one side over the cheese in the middle, followed by the other side, so the omelet is folded in thirds. Remove to a plate and sprinkle with remaining chives.",
+        "url": "https://www.allrecipes.com/boursin-omelet-recipe-8750293",
+        "added_by": null,
+        "is_shared_globally": false,
+        "categories": [],
+        "tags": []
+    }
+},
+{
+    "model": "api.recipe",
+    "pk": 49,
+    "fields": {
+        "name": "Cheesy Garlic Mashed Potatoes",
+        "prep_time": "00:15:00",
+        "cook_time": "00:25:00",
+        "servings": 6,
+        "instructions": "Place potatoes in a large pot and cover with salted water; bring to a boil. Reduce heat to medium-low and simmer until tender, about 20 minutes. Drain; mash potatoes with a potato masher.\nPlace butter and garlic in a large microwavable bowl. Microwave for 30 second intervals until the butter is melted and garlic becomes fragrant. Stir into mashed potatoes. Add cheese, sour cream, heavy whipping cream, salt, and pepper. Garnish with green onions.",
+        "url": "https://www.allrecipes.com/cheesy-garlic-mashed-potatoes-recipe-8752836",
+        "added_by": null,
+        "is_shared_globally": false,
+        "categories": [],
+        "tags": []
+    }
+},
+{
+    "model": "api.recipe",
+    "pk": 50,
+    "fields": {
+        "name": "Goat Cheese Stuffed Dates",
+        "prep_time": "00:20:00",
+        "cook_time": "00:20:00",
+        "servings": 14,
+        "instructions": "Preheat the oven to 400 degrees F (200 degrees C). Line a baking sheet with parchment paper.\nUsing a paring knife, cut each date lengthwise through to the middle and remove pit. Stuff each date with goat cheese, then press 4 to 5 pine nuts into the cheese. Wrap each date with a piece of bacon and secure with a toothpick. Bacon should wrap around each date about 1 1/2 times. Place on the prepared baking sheet.\nBake in the preheated oven until bacon is nearly done, 15 to 17 minutes.\nTurn on the broiler and place a rack 6 inches from heat. Broil dates until bacon is browned and slightly crispy, 1 to 2 minutes. Remove from oven and place on a serving platter; drizzle dates with balsamic glaze.",
+        "url": "https://www.allrecipes.com/goat-cheese-stuffed-dates-recipe-8759685",
+        "added_by": null,
+        "is_shared_globally": false,
+        "categories": [],
+        "tags": []
+    }
+},
+{
+    "model": "api.recipe",
+    "pk": 51,
+    "fields": {
+        "name": "Turmeric Black Pepper Chicken with Broccoli",
+        "prep_time": "00:15:00",
+        "cook_time": "00:10:00",
+        "servings": 5,
+        "instructions": "Whisk water, honey, and pepper together in a small bowl. Set aside.\nWhisk flour, turmeric, and salt together in a separate bowl. Add chicken pieces and toss to coat.\nHeat oil in a wok over medium-high heat. Add chicken and cook for 4 minutes, stirring frequently. Add broccoli and water chestnuts. Cook for 3 minutes, stirring frequently.\nStir in honey mixture. Cook until sauce has thickened, 3 to 4 minutes. Turn heat off and stir in vinegar. Serve over rice or in lettuce wraps.",
+        "url": "https://www.allrecipes.com/turmeric-black-pepper-chicken-with-broccoli-recipe-8750707",
+        "added_by": null,
+        "is_shared_globally": false,
+        "categories": [],
+        "tags": []
+    }
+}
 ]
