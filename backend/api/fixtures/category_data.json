@@ -1,0 +1,17 @@
+[
+    {"model": "api.category", "pk": 1, "fields": {"name": "Dinner Recipes Fruits"}},
+    {"model": "api.category", "pk": 2, "fields": {"name": "Vegetables and Other Produce"}},
+    {"model": "api.category", "pk": 3, "fields": {"name": "Bread Recipes"}},
+    {"model": "api.category", "pk": 4, "fields": {"name": "Appetizers and Snacks"}},
+    {"model": "api.category", "pk": 5, "fields": {"name": "Drinks"}},
+    {"model": "api.category", "pk": 6, "fields": {"name": "Breakfast and Brunch"}},
+    {"model": "api.category", "pk": 7, "fields": {"name": "Desserts"}},
+    {"model": "api.category", "pk": 8, "fields": {"name": "Main Dishes"}},
+    {"model": "api.category", "pk": 9, "fields": {"name": "Side Dishes"}},
+    {"model": "api.category", "pk": 10, "fields": {"name": "Cuisine BBQ & Grilling"}},
+    {"model": "api.category", "pk": 11, "fields": {"name": "Meat and Poultry"}},
+    {"model": "api.category", "pk": 12, "fields": {"name": "Seafood Recipes"}},
+    {"model": "api.category", "pk": 13, "fields": {"name": "Soups, Stews and Chili"}},
+    {"model": "api.category", "pk": 14, "fields": {"name": "Pasta Noodles"}},
+    {"model": "api.category", "pk": 15, "fields": {"name": "Salad Recipes"}}
+]

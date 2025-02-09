@@ -1,171 +1,139 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.core.validators import MinValueValidator
-from django.core.exceptions import ValidationError
-from django.utils import timezone
 
-# Create your models here.
+UNIT_CHOICES = [
+    ('cup', 'Cup'),
+    ('tbsp', 'Tablespoon'),
+    ('tsp', 'Teaspoon'),
+    ('oz', 'Ounce'),
+    ('lb', 'Pound'),
+    ('g', 'Gram'),
+    ('kg', 'Kilogram'),
+    ('ml', 'Milliliter'),
+    ('l', 'Liter'),
+    ('pinch', 'Pinch'),
+    ('piece', 'Piece'),
+    ('whole', 'Whole'),
+    ('pkg', 'Package'),
+    ('slice', 'Slice'),
+]
+
+class Home(models.Model):
+    name = models.CharField(max_length=255)
+    code = models.CharField(max_length=10, unique=True)
+    
+    def __str__(self):
+        return self.name
+
+class Person(models.Model):
+    home = models.ForeignKey(Home, related_name='people', on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
+    email = models.EmailField(blank=True, null=True)
+    user = models.OneToOneField(User, null=True, blank=True, on_delete=models.SET_NULL)
+    
+    def __str__(self):
+        return self.name
+
+class Chore(models.Model):
+    home = models.ForeignKey(Home, related_name='chores', on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+    due_date = models.DateField()
+    assigned_to = models.ForeignKey(Person, related_name='chores', null=True, blank=True, on_delete=models.SET_NULL)
+    completed = models.BooleanField(default=False)
+    
+    def __str__(self):
+        return self.name
+
 class Event(models.Model):
-    title = models.CharField(max_length=200)
+    home = models.ForeignKey(Home, related_name='events', on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
     date = models.DateField()
     time = models.TimeField()
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='events')
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
+    location = models.CharField(max_length=255)
+    
     def __str__(self):
-        return f"{self.title} on {self.date} at {self.time}"
+        return f"{self.title} on {self.date}"
 
 class Ingredient(models.Model):
-    CATEGORY_CHOICES = [
-        ('produce', 'Produce'),
-        ('meat', 'Meat'),
-        ('dairy', 'Dairy'),
-        ('pantry', 'Pantry'),
-        ('spices', 'Spices'),
-        ('other', 'Other'),
-    ]
+    name = models.CharField(max_length=255)
+    
+    def __str__(self):
+        return self.name
 
-    name = models.CharField(max_length=200)
-    description = models.TextField(blank=True)
-    category = models.CharField(max_length=50, choices=CATEGORY_CHOICES)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def clean(self):
-        if self.category not in dict(self.CATEGORY_CHOICES):
-            raise ValidationError({'category': 'Invalid category choice'})
-
-    def save(self, *args, **kwargs):
-        self.clean()
-        super().save(*args, **kwargs)
+class Category(models.Model):
+    name = models.CharField(max_length=255)
 
     def __str__(self):
         return self.name
 
-    class Meta:
-        ordering = ['name']
+class Tag(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
 
 class Recipe(models.Model):
-    DIFFICULTY_CHOICES = [
-        ('easy', 'Easy'),
-        ('medium', 'Medium'),
-        ('hard', 'Hard'),
-    ]
-
-    name = models.CharField(max_length=200)
-    description = models.TextField(blank=True)
+    name = models.CharField(max_length=255)
+    prep_time = models.DurationField()
+    cook_time = models.DurationField()
+    servings = models.IntegerField()
     instructions = models.TextField()
-    prep_time = models.IntegerField(validators=[MinValueValidator(0)], null=True, blank=True)
-    cook_time = models.IntegerField(validators=[MinValueValidator(0)], null=True, blank=True)
-    servings = models.IntegerField(validators=[MinValueValidator(1)], null=True, blank=True)
-    difficulty = models.CharField(max_length=50, choices=DIFFICULTY_CHOICES, null=True, blank=True)
-    ingredients = models.ManyToManyField(Ingredient, through='RecipeIngredient')
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def clean(self):
-        if self.difficulty and self.difficulty not in dict(self.DIFFICULTY_CHOICES):
-            raise ValidationError({'difficulty': 'Invalid difficulty choice'})
-
-    def save(self, *args, **kwargs):
-        self.clean()
-        super().save(*args, **kwargs)
-
+    url = models.URLField(blank=True, null=True)
+    categories = models.ManyToManyField(Category, related_name='recipes')
+    tags = models.ManyToManyField(Tag, related_name='recipes')
+    added_by = models.ForeignKey(User, related_name='recipes', on_delete=models.CASCADE, blank=True, null=True)
+    is_shared_globally = models.BooleanField(default=False)
+    
     def __str__(self):
         return self.name
 
-    class Meta:
-        ordering = ['-created_at']
-
 class RecipeIngredient(models.Model):
-    UNIT_CHOICES = [
-        ('cup', 'Cup'),
-        ('tbsp', 'Tablespoon'),
-        ('tsp', 'Teaspoon'),
-        ('oz', 'Ounce'),
-        ('lb', 'Pound'),
-        ('g', 'Gram'),
-        ('kg', 'Kilogram'),
-        ('ml', 'Milliliter'),
-        ('l', 'Liter'),
-        ('pinch', 'Pinch'),
-        ('piece', 'Piece'),
-        ('whole', 'Whole'),
-        ('pkg', 'Package'),
-        ('slice', 'Slice'),
-    ]
-
-    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
-    ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
-    quantity = models.DecimalField(max_digits=6, decimal_places=2)
-    unit = models.CharField(max_length=50, choices=UNIT_CHOICES)
-    notes = models.TextField(blank=True)
+    recipe = models.ForeignKey(Recipe, related_name='recipe_ingredients', on_delete=models.CASCADE)
+    ingredient = models.ForeignKey(Ingredient, related_name='recipe_ingredients', on_delete=models.CASCADE)
+    quantity = models.FloatField()
+    units = models.CharField(max_length=50, choices=UNIT_CHOICES)
+    notes = models.TextField(blank=True, null=True)
     optional = models.BooleanField(default=False)
-    order = models.IntegerField(default=0)
+    order = models.IntegerField()
 
     class Meta:
-        ordering = ['order', 'id']
-
-    def clean(self):
-        if self.unit not in dict(self.UNIT_CHOICES):
-            raise ValidationError({'unit': 'Invalid unit choice'})
-
-    def save(self, *args, **kwargs):
-        self.clean()
-        super().save(*args, **kwargs)
-
-    def __str__(self):
-        return f'{self.recipe.name} - {self.ingredient.name}'
-
-class MealPlan(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='meal_plans')
-    start_date = models.DateField()
-    name = models.CharField(max_length=200, default="Weekly Meal Plan")
-    notes = models.TextField(blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return f"{self.name} - Starting {self.start_date}"
-
-    class Meta:
-        ordering = ['-start_date']
-
-class MealSlot(models.Model):
-    MEAL_TYPE_ORDER = {
-        'breakfast': 1,
-        'lunch': 2,
-        'dinner': 3,
-        'snack': 4
-    }
+        ordering = ['order']
     
-    MEAL_TYPE_CHOICES = [
-        ('breakfast', 'Breakfast'),
-        ('lunch', 'Lunch'),
-        ('dinner', 'Dinner'),
-        ('snack', 'Snack'),
-    ]
+    def __str__(self):
+        return f"{self.quantity} {self.get_units_display()} of {self.ingredient.name}"
 
-    meal_plan = models.ForeignKey(MealPlan, on_delete=models.CASCADE, related_name='meal_slots')
-    recipe = models.ForeignKey(Recipe, on_delete=models.SET_NULL, null=True, blank=True)
-    date = models.DateField()
-    meal_type = models.CharField(max_length=20, choices=MEAL_TYPE_CHOICES)
-    meal_type_order = models.IntegerField(editable=False)
-    notes = models.TextField(blank=True)
-    servings = models.PositiveIntegerField(default=1)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def save(self, *args, **kwargs):
-        self.meal_type_order = self.MEAL_TYPE_ORDER.get(self.meal_type, 5)
-        super().save(*args, **kwargs)
+class RecipeCatalog(models.Model):
+    recipes = models.ManyToManyField(Recipe, related_name='catalogs')
 
     def __str__(self):
-        recipe_name = self.recipe.name if self.recipe else "No recipe"
-        return f"{self.get_meal_type_display()} - {recipe_name} ({self.date})"
+        return f"Catalog with {self.recipes.count()} recipes"
 
-    class Meta:
-        ordering = ['date', 'meal_type_order']
-        unique_together = ['meal_plan', 'date', 'meal_type']
+class Meal(models.Model):
+    home = models.ForeignKey(Home, related_name='meals', on_delete=models.CASCADE)
+    date = models.DateField()
+    recipes = models.ManyToManyField(Recipe, related_name='meals')
+    raw_ingredients = models.ManyToManyField(Ingredient, through='MealIngredient')
+    people = models.ManyToManyField(Person, related_name='meals')
+    guests = models.IntegerField(default=0)
+    
+    def __str__(self):
+        return f"Meal on {self.date}"
+
+class MealIngredient(models.Model):
+    meal = models.ForeignKey(Meal, related_name='meal_ingredients', on_delete=models.CASCADE)
+    ingredient = models.ForeignKey(Ingredient, related_name='meal_ingredients', on_delete=models.CASCADE)
+    quantity = models.FloatField()
+    units = models.CharField(max_length=50, choices=UNIT_CHOICES)
+    notes = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.quantity} {self.get_units_display()} of {self.ingredient.name} for {self.meal}"
+
+class ShoppingList(models.Model):
+    home = models.ForeignKey(Home, related_name='shopping_lists', on_delete=models.CASCADE)
+    date_created = models.DateField(auto_now_add=True)
+    items = models.TextField()
+
+    def __str__(self):
+        return f"Shopping List created on {self.date_created}"

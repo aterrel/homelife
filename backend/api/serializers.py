@@ -1,40 +1,26 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import Event, Recipe, Ingredient, RecipeIngredient, MealPlan, MealSlot
-from django.contrib.auth.password_validation import validate_password
-
-class EventSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Event
-        fields = ['id', 'title', 'date', 'time', 'user']
-        read_only_fields = ['user']
+from .models import Recipe, Category, Tag, Ingredient, RecipeIngredient
 
 class UserSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
-
     class Meta:
         model = User
-        fields = ['id', 'username', 'password', 'email', 'first_name', 'last_name']
-        extra_kwargs = {
-            'first_name': {'required': True},
-            'last_name': {'required': True},
-            'email': {'required': True}
-        }
+        fields = ['id', 'username', 'email']
 
-    def create(self, validated_data):
-        user = User.objects.create_user(
-            username=validated_data['username'],
-            email=validated_data['email'],
-            first_name=validated_data['first_name'],
-            last_name=validated_data['last_name'],
-            password=validated_data['password']
-        )
-        return user
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ['id', 'name']
+
+class TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = ['id', 'name']
 
 class IngredientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ingredient
-        fields = ['id', 'name', 'description', 'category']
+        fields = ['id', 'name']
 
 class RecipeIngredientSerializer(serializers.ModelSerializer):
     ingredient = IngredientSerializer(read_only=True)
@@ -43,37 +29,68 @@ class RecipeIngredientSerializer(serializers.ModelSerializer):
         source='ingredient',
         write_only=True
     )
-    
+
     class Meta:
         model = RecipeIngredient
-        fields = ['id', 'ingredient', 'ingredient_id', 'quantity', 'unit', 'optional', 'notes']
+        fields = ['id', 'ingredient', 'ingredient_id', 'quantity', 'units', 'notes', 'optional', 'order']
 
 class RecipeSerializer(serializers.ModelSerializer):
-    ingredients = RecipeIngredientSerializer(
-        source='recipeingredient_set',
+    categories = CategorySerializer(many=True, read_only=True)
+    category_ids = serializers.PrimaryKeyRelatedField(
         many=True,
-        read_only=True
+        queryset=Category.objects.all(),
+        source='categories',
+        write_only=True
     )
-    
+    tags = TagSerializer(many=True, read_only=True)
+    tag_ids = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=Tag.objects.all(),
+        source='tags',
+        write_only=True
+    )
+    recipe_ingredients = RecipeIngredientSerializer(many=True)
+    added_by = UserSerializer(read_only=True)
+
     class Meta:
         model = Recipe
         fields = [
-            'id', 'name', 'description', 'instructions', 
-            'prep_time', 'cook_time', 'servings', 'difficulty',
-            'ingredients', 'user', 'created_at', 'updated_at'
+            'id', 'name', 'prep_time', 'cook_time', 'servings',
+            'instructions', 'url', 'categories', 'category_ids',
+            'tags', 'tag_ids', 'recipe_ingredients', 'added_by',
+            'is_shared_globally'
         ]
-        read_only_fields = ['user']
 
-class MealSlotSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = MealSlot
-        fields = ['id', 'meal_plan', 'recipe', 'date', 'meal_type', 'notes', 'servings', 'created_at', 'updated_at']
-        read_only_fields = ['created_at', 'updated_at']
+    def create(self, validated_data):
+        categories = validated_data.pop('categories', [])
+        tags = validated_data.pop('tags', [])
+        recipe_ingredients_data = validated_data.pop('recipe_ingredients', [])
 
-class MealPlanSerializer(serializers.ModelSerializer):
-    meal_slots = MealSlotSerializer(many=True, read_only=True)
+        recipe = Recipe.objects.create(**validated_data)
+        recipe.categories.set(categories)
+        recipe.tags.set(tags)
 
-    class Meta:
-        model = MealPlan
-        fields = ['id', 'user', 'start_date', 'name', 'notes', 'meal_slots', 'created_at', 'updated_at']
-        read_only_fields = ['created_at', 'updated_at', 'user']
+        for ingredient_data in recipe_ingredients_data:
+            RecipeIngredient.objects.create(recipe=recipe, **ingredient_data)
+
+        return recipe
+
+    def update(self, instance, validated_data):
+        categories = validated_data.pop('categories', None)
+        tags = validated_data.pop('tags', None)
+        recipe_ingredients_data = validated_data.pop('recipe_ingredients', None)
+
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+
+        if categories is not None:
+            instance.categories.set(categories)
+        if tags is not None:
+            instance.tags.set(tags)
+        if recipe_ingredients_data is not None:
+            instance.recipe_ingredients.all().delete()
+            for ingredient_data in recipe_ingredients_data:
+                RecipeIngredient.objects.create(recipe=instance, **ingredient_data)
+
+        return instance

@@ -25,9 +25,10 @@ from api import views
 
 router = routers.DefaultRouter()
 router.register(r'recipes', views.RecipeViewSet)
-router.register(r'events', views.EventViewSet)
-router.register(r'meal-plans', views.MealPlanViewSet)
-router.register(r'meal-slots', views.MealSlotViewSet)
+router.register(r'categories', views.CategoryViewSet)
+router.register(r'tags', views.TagViewSet)
+router.register(r'ingredients', views.IngredientViewSet)
+router.register(r'recipe-ingredients', views.RecipeIngredientViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
