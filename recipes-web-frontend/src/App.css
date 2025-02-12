@@ -1,0 +1,48 @@
+.App {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.recipe-list {
+  padding: 20px 0;
+}
+
+.recipe-detail {
+  padding: 20px 0;
+}
+
+.recipe-detail .card {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.recipe-detail .instructions p {
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+}
+
+.badge {
+  font-size: 0.9em;
+  padding: 0.5em 1em;
+}
+
+.form-check-inline {
+  margin-right: 1.5rem;
+}
+
+.navbar {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card {
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+}
+
+.btn-outline-primary:hover,
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
