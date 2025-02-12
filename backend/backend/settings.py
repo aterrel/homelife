@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django_filters',
     'corsheaders',
     'api',
+    'recipes',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

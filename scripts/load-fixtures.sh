@@ -12,7 +12,19 @@ python manage.py flush --no-input
 
 # Load all fixtures
 echo "Loading fixtures..."
-python manage.py loaddata api/fixtures/*.json
+echo "loading test users..."
+python manage.py loaddata api/fixtures/test_users.json
+echo "loading categories..."
+python manage.py loaddata api/fixtures/category_data.json
+echo "loading ingredients..."
+python manage.py loaddata api/fixtures/ingredient_data.json
+echo "loading recipes..."
+python manage.py loaddata api/fixtures/recipe_data.json
+echo "loading recipeingredients..."
+python manage.py loaddata api/fixtures/recipeingredient_data.json
+#echo "loading events..."
+#python manage.py loaddata api/fixtures/event_data.json
+
 
 # Create test users with proper passwords
 echo "Creating test users..."

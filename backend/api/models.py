@@ -1,3 +1,4 @@
+from re import A
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -33,6 +34,16 @@ class Person(models.Model):
     
     def __str__(self):
         return self.name
+
+class Guest(models.Model):
+    home = models.ForeignKey(Home, related_name='guests', on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    email = models.EmailField(blank=True, null=True)
+    user = models.OneToOneField(User, null=True, blank=True, on_delete=models.SET_NULL)
+
+    def __str__(self):
+        return f"Guest: {self.name}"
+
 
 class Chore(models.Model):
     home = models.ForeignKey(Home, related_name='chores', on_delete=models.CASCADE)
@@ -137,3 +148,29 @@ class ShoppingList(models.Model):
 
     def __str__(self):
         return f"Shopping List created on {self.date_created}"
+
+class GarbageCan(models.Model):
+    home = models.ForeignKey(Home, on_delete=models.CASCADE, related_name='garbage_can')
+    deleted_event = models.ForeignKey(Event, on_delete=models.SET_NULL, null=True, blank=True)
+    deleted_meal = models.ForeignKey(Meal, on_delete=models.SET_NULL, null=True, blank=True)
+    deleted_at = models.DateTimeField(auto_now_add=True)
+
+class HomeLifeActivity(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='activity_logs')
+    home = models.ForeignKey(Home, on_delete=models.CASCADE, related_name='activity_logs')
+    action = models.CharField(max_length=50, choices=[('created', 'Created'), ('updated', 'Updated'), ('deleted', 'Deleted'), ('canceled', 'Canceled')])
+    timestamp = models.DateTimeField(auto_now_add=True)
+    entity_type = models.CharField(max_length=50)
+    entity_id = models.IntegerField()
+
+class ChoreActivity(models.Model):
+    chore = models.ForeignKey(Chore, on_delete=models.CASCADE, related_name='activities')
+    activity_log = models.ForeignKey(HomeLifeActivity, on_delete=models.CASCADE)
+
+class EventActivity(models.Model):
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, related_name='activities')
+    activity_log = models.ForeignKey(HomeLifeActivity, on_delete=models.CASCADE)
+
+class MealActivity(models.Model):
+    meal = models.ForeignKey(Meal, on_delete=models.CASCADE, related_name='activities')
+    activity_log = models.ForeignKey(HomeLifeActivity, on_delete=models.CASCADE)
